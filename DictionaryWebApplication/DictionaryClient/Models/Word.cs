@@ -7,9 +7,8 @@ namespace DictionaryClient.Models
     {
         public Word()
         {
-            PendingWords = new HashSet<PendingWord>();
+            WordDefinitions = new HashSet<WordDefinition>();
             Antonyms = new HashSet<Word>();
-            Definitions = new HashSet<Definition>();
             Synonyms = new HashSet<Word>();
             Users = new HashSet<User>();
             Words = new HashSet<Word>();
@@ -19,14 +18,14 @@ namespace DictionaryClient.Models
         public int Id { get; set; }
         public string WordText { get; set; } = null!;
         public string? ShortDefinition { get; set; }
-        public string? IllustrationImage { get; set; }
-        public string? Type { get; set; }
-        public bool? IsActive { get; set; }
+        public string? Phonetic { get; set; }
+        public int? AddByUser { get; set; }
+        public string? Status { get; set; }
 
-        public virtual ICollection<PendingWord> PendingWords { get; set; }
+        public virtual User? AddByUserNavigation { get; set; }
+        public virtual ICollection<WordDefinition> WordDefinitions { get; set; }
 
         public virtual ICollection<Word> Antonyms { get; set; }
-        public virtual ICollection<Definition> Definitions { get; set; }
         public virtual ICollection<Word> Synonyms { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Word> Words { get; set; }

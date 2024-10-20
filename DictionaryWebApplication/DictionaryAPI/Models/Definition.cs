@@ -7,12 +7,13 @@ namespace DictionaryAPI.Models
     {
         public Definition()
         {
-            Words = new HashSet<Word>();
+            Examples = new HashSet<Example>();
         }
 
         public int Id { get; set; }
         public string? Detail { get; set; }
 
-        public virtual ICollection<Word> Words { get; set; }
+        public virtual WordDefinition? WordDefinition { get; set; }
+        public virtual ICollection<Example> Examples { get; set; }
     }
 }

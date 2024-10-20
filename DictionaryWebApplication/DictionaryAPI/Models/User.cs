@@ -1,5 +1,4 @@
-﻿using DictionaryAPI.DTOs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace DictionaryAPI.Models
@@ -8,7 +7,7 @@ namespace DictionaryAPI.Models
     {
         public User()
         {
-            PendingWords = new HashSet<PendingWord>();
+            WordsNavigation = new HashSet<Word>();
             Words = new HashSet<Word>();
         }
 
@@ -19,17 +18,8 @@ namespace DictionaryAPI.Models
         public bool? IsActive { get; set; }
 
         public virtual UserDetail? UserDetail { get; set; }
-        public virtual ICollection<PendingWord> PendingWords { get; set; }
+        public virtual ICollection<Word> WordsNavigation { get; set; }
 
         public virtual ICollection<Word> Words { get; set; }
-
-        public void FromRegisterDto(UserRegisterDTO userDto) {
-            this.Username = userDto.Username;
-            this.Password = userDto.Password;
-            if (UserDetail == null) {
-                this.UserDetail = new UserDetail();
-            }
-            this.UserDetail.Email = userDto.Email;
-        }
     }
 }
