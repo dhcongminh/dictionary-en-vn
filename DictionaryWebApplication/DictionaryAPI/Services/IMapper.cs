@@ -4,9 +4,9 @@ using DictionaryAPI.Models;
 
 namespace DictionaryAPI.Services {
     public interface IMapper {
-        public Word WordInDetailDtoToWord(WordInDetailDTO dto);
-        public Word WordInListDtoToWord(WordInListDTO dto);
-        public Word WordInputDtoToWord(WordInputDTO dto);
+        public Word DtoToWord(WordInDetailDTO dto);
+        public Word DtoToWord(WordInListDTO dto);
+        public Word DtoToWord(WordInputDTO dto);
         public WordInDetailDTO? WordToDetailDto(Word? word);
         public WordInListDTO WordToListDto(Word word);
         public WordInputDTO WordToInputDto(Word word);

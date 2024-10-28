@@ -2,5 +2,139 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var baseAddress = ViewData["BaseAddress"];
 }
-Hello World
+
+<div>
+    <div class="mt-5 w-100 d-flex justify-content-center">
+        <form onsubmit="searchFormOnSubmit(event, '@baseAddress')" class="d-flex gap-3 position-relative">
+            <div class="input-group">
+                <input title="search" class="form-control-lg" id="search" type="text" value="">
+            </div>
+            <div class="search-recommend position-absolute top-100 w-100">
+                <ul class="list-group">
+                    <li class="list-group-item search-recommend-item">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-success">An item</span>
+                            <span class="fs-6 text-secondary">/an item/</span>
+                        </div>
+                        <div>
+                            <span>short definition</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item search-recommend-item">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-success">An item</span>
+                            <span class="fs-6 text-secondary">/an item/</span>
+                        </div>
+                        <div>
+                            <span>short definition</span>
+                        </div>
+                    </li>
+                    <li class="list-group-item search-recommend-item">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-success">An item</span>
+                            <span class="fs-6 text-secondary">/an item/</span>
+                        </div>
+                        <div>
+                            <span>short definition</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-lg btn-outline-success">Dịch</button>
+            </div>
+        </form>
+    </div>
+    <div class="mt-5" id="word-detail-container">
+        <div class="border-bottom border-top py-3">
+            <div>
+                <span class="text-success fs-1">hello</span>
+            </div>
+            <div class=" d-flex gap-3">
+                <span>/hello/</span>
+                <a>
+                    <i class="fa-solid fa-volume-high"></i>
+                </a>
+            </div>
+        </div>
+        <div class="py-3">
+            <h5><span class="badge text-bg-warning ">Động từ</span></h5>
+            <div class="pt-3">
+                <span class="text-danger fs-4">Xin chào</span>
+            </div>
+            <div class="pt-3">
+                Ví dụ:
+            </div>
+            <div class="pt-3">
+                <ul class="list-group">
+                    <li class="list-group-item">Hello world</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #word-detail-container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+
+    @@media (min-width: 768px) {
+        #word-detail-container {
+            margin-left: 5rem;
+            margin-right: 5rem;
+        }
+    }
+
+    @@media (min-width: 991px) {
+        #word-detail-container {
+            margin-left: 10rem;
+            margin-right: 10rem;
+        }
+    }
+</style>
+
+<script>
+    $(document).ready(() => {
+
+
+    });
+
+
+    const searchFormOnSubmit = (e, baseAddress) => {
+        e.preventDefault();
+        console.log(baseAddress);
+        $.ajax({
+            url: baseAddress + "/api/v1/word/en/" + $("#search").val, // Đường dẫn API
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                console.log('Dữ liệu nhận được:', response);
+            },
+            error: function (xhr, status, error) {
+                console.error('Lỗi xảy ra:', error);
+            }
+        });
+    }
+
+    $("#search").on("input", debounce((e) => {
+        console.log(e.target.value);
+    }, 500));
+
+
+
+    function debounce(func, delay) {
+        let timer;
+        return function (...args) {
+            const context = this;
+            clearTimeout(timer);
+            timer = setTimeout(() => func.apply(context, args), delay);
+        };
+    }
+</script>

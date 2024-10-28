@@ -38,6 +38,15 @@ namespace DictionaryAPI.Services.Implementation {
             return _mapper.WordToDetailDto(_repo.GetWordById(id));
         }
 
+        public WordInDetailDTO? GetByText(string search) {
+            return _mapper.WordToDetailDto(_repo.GetWordByWordText(search));
+        }
+
+        public List<WordInListDTO> GetWordsByAddedUser(int uid) {
+            return _repo.GetWordsByAddedUser(uid).Select(w => {
+                return _mapper.WordToListDto(w);
+            }).ToList();
+        }
 
         public List<WordInListDTO> GetWordsStartWith(string search) {
             return _repo.GetWordsStartWith(search).Select(w => {
@@ -46,7 +55,11 @@ namespace DictionaryAPI.Services.Implementation {
         }
 
         public string Insert(WordInputDTO word) {
-            Word? w = _repo.Create(_mapper.WordInputDtoToWord(word));
+            if (_repo.GetWordByWordText(word.WordText.Trim()) != null) {
+                return _config["word exist"];
+            }
+            Word data = _mapper.DtoToWord(word);
+            Word? w = _repo.Create(data);
             if (w != null)
                 return _config["Messages:Successes:ADD_WORD"];
             return _config["Messages:Errors:ADD_WORD"];
@@ -64,12 +77,16 @@ namespace DictionaryAPI.Services.Implementation {
             if (word == null) {
                 return _config["Messages:Errors:WORD_NOT_FOUND"];
             }
+            if (_repo.GetWordByWordText(dto.WordText) != null && dto.WordText != word.WordText) {
+                return _config["word exist"];
+            }
 
             word.WordText = dto.WordText;
             word.ShortDefinition = dto.ShortDefinition;
             word.Phonetic = dto.Phonetic;
             word.AddByUser = dto.AddByUser;
             word.Status = dto.Status;
+            word.Antonyms.Clear();
             if (dto.Antonyms != null && dto.Antonyms.Count > 0) {
                 foreach (var antonym in dto.Antonyms) {
                     Word? search = _repo.GetWordByWordText(antonym);
@@ -77,6 +94,7 @@ namespace DictionaryAPI.Services.Implementation {
                         word.Antonyms.Add(search);
                 }
             }
+            word.Synonyms.Clear();
             if (dto.Synonyms != null && dto.Synonyms.Count > 0) {
                 foreach (var synonym in dto.Synonyms) {
                     Word? search = _repo.GetWordByWordText(synonym);
@@ -84,11 +102,13 @@ namespace DictionaryAPI.Services.Implementation {
                         word.Synonyms.Add(search);
                 }
             }
+            word.WordDefinitions.Clear();
             if (dto.WordDefinitions != null && dto.WordDefinitions.Count > 0) {
                 foreach (var definition in dto.WordDefinitions) {
                     word.WordDefinitions.Add(_mapper.WordDefinitionDtoToWordDefinition(definition));
                 }
             }
+            _repo.Update(word);
             return _config["Messages:Successes:UPDATE_WORD"];
         }
     }

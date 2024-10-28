@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DictionaryAPI.Models
 {
@@ -18,6 +19,7 @@ namespace DictionaryAPI.Models
         public bool? IsActive { get; set; }
 
         public virtual UserDetail? UserDetail { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Word> WordsNavigation { get; set; }
 
         public virtual ICollection<Word> Words { get; set; }

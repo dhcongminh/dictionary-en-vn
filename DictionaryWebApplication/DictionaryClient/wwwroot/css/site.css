@@ -2,10 +2,39 @@ html {
   font-size: 14px;
 }
 
+footer {
+    background-color: #fff;
+}
+.search-recommend {
+    display: none;
+}
+.search-recommend.show {
+    display: block !important;
+}
+.search-recommend ul {
+    height: 20rem;
+    overflow-y: scroll;
+}
+.search-recommend 
+.search-recommend-item:hover {
+    background-color: antiquewhite;
+    cursor: pointer
+}
+
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
+}
+
+@media (min-width: 991px) {
+    #user-menu {
+        transform: translateX(-80%);
+    }
+    #theme-change-btn{
+        cursor: pointer;
+    }
 }
 
 html {

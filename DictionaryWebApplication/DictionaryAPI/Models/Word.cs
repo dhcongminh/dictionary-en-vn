@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DictionaryAPI.Models {
-    public partial class Word {
-        public Word() {
+namespace DictionaryAPI.Models
+{
+    public partial class Word
+    {
+        public Word()
+        {
             WordDefinitions = new HashSet<WordDefinition>();
             Antonyms = new HashSet<Word>();
             Synonyms = new HashSet<Word>();

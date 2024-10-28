@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
+      "Id": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryClient\\wwwroot\\js\\form-validator.js",
+      "PackagePath": "staticwebassets\\js\\form-validator.js"
+    },
+    {
       "Id": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryClient\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

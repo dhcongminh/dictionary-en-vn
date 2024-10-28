@@ -13,12 +13,12 @@ namespace DictionaryAPI.Controllers {
     [ApiController]
     public class WordController : ControllerBase {
         private readonly IWordService _service;
-        private readonly IAuthService _authService;
         private readonly IConfiguration _configuration;
-        public WordController(IWordService service, IAuthService authService, IConfiguration configuration) {
+        private readonly IAuthorizationService _authorizationService;
+        public WordController(IWordService service, IConfiguration configuration, IAuthorizationService authorizationService) {
             _service = service;
-            _authService = authService;
             _configuration = configuration;
+            _authorizationService = authorizationService;
         }
 
         [HttpGet]
@@ -40,6 +40,25 @@ namespace DictionaryAPI.Controllers {
             return Ok(dto);
         }
 
+        [HttpGet("en/{search}")]
+        public IActionResult GetWordByText(string search) {
+
+            WordInDetailDTO? dto = _service.GetByText(search);
+            if (dto == null)
+                return NoContent();
+            return Ok(dto);
+        }
+
+        [Authorize]
+        [HttpGet("u/{uid}")]
+        public async Task<IActionResult> GetWordsByAddedUser(int uid) {
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, uid, "WordListViewOwnerPolicy");
+            if (!authorizationResult.Succeeded) {
+                return Forbid("Chỉ được truy cập những từ add bởi uid.");
+            }
+            return Ok(_service.GetWordsByAddedUser(uid));
+        }
+
         [Authorize(Roles = "Admin system")]
         [HttpPost]
         public IActionResult Add([FromBody] WordInputDTO dto) {
@@ -58,10 +77,41 @@ namespace DictionaryAPI.Controllers {
             return BadRequest(_configuration["Messages:Errors:INVALID_INPUT_FORMAT"]);
         }
 
+
+
+        [Authorize(Roles = "Admin system")]
+        [HttpPut("restore/{id}")]
+        public IActionResult Restore(int id) {
+            return Ok(_service.Restore(id));
+        }
         [Authorize(Roles = "Admin system")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id) {
             return Ok(_service.Delete(id));
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpPost("request-add-word")]
+        public IActionResult RequestAdd([FromBody] WordInputDTO dto) {
+            if (ModelState.IsValid) {
+                dto.Status = "pending";
+                return Ok(_service.Insert(dto));
+            }
+            return BadRequest(_configuration["Messages:Errors:INVALID_INPUT_FORMAT"]);
+        }
+
+        [Authorize(Roles = "Member")]
+        [HttpPut("request-update-added-word/{id}")]
+        public async Task<IActionResult>  RequestUpdate(int id, [FromBody] WordInputDTO dto) {
+            var authorizationResult = await _authorizationService.AuthorizeAsync(User, dto, "WordOwnerPolicy");
+            if (!authorizationResult.Succeeded) {
+                return Forbid("You don't have permission to adjust this word.");
+            }
+            if (ModelState.IsValid) {
+                dto.Status = "pending";
+                return Ok(_service.Update(id, dto));
+            }
+            return BadRequest(_configuration["Messages:Errors:INVALID_INPUT_FORMAT"]);
         }
     }
 }

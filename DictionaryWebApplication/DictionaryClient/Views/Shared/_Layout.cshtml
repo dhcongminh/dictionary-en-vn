@@ -1,50 +1,88 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Dictionary</title>
+    <title>Dictionary - MinhDHC</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
-        rel="stylesheet" 
-        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" 
-        crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Q2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">Từ điển Anh Việt</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+
+
+
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item border-end">
+                            <a class="nav-link" href="/auth/login">Đăng nhập</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" href="/auth/register">Đăng ký</a>
+                        </li>
+                    </ul>
+                    
+
+
+
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item border-end">
+                            <a class="nav-link" href="/auth/register">Thêm từ mới</a>
+                        </li>
+                        <li class="nav-item dropdown position-relative">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user"></i>
+                            </a>
+                            <ul id="user-menu" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">[@@username]</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Hồ sơ</a></li>
+                                <li><a class="dropdown-item" href="#">Từ vựng yêu thích</a></li>
+                                <li><a class="dropdown-item" href="/grossary">Quản lý từ vựng của tôi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Đăng xuất</a></li>
+                            </ul>
                         </li>
                     </ul>
                 </div>
+
+
+
+            </div>
+            <div id="theme-change-btn" class="ms-2 p-2">
+                <i class="fa-regular fa-moon"></i>
             </div>
         </nav>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <nav class="border-top footer text-muted position-fixed bottom-0 w-100 d-flex flex-column justify-content-center bg-white" style="height: 4rem">
         <div class="container">
-            &copy; 2024 - Dictionary - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Dictionary
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    </nav>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/form-validator.js" asp-append-version="true"></script>
+<script src="https://kit.fontawesome.com/ff0d738c65.js" crossorigin="anonymous"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </html>

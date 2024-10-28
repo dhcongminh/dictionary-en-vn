@@ -3,17 +3,13 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace DictionaryAPI.Models
-{
-    public partial class Dictionary_en_vnContext : DbContext
-    {
-        public Dictionary_en_vnContext()
-        {
+namespace DictionaryAPI.Models {
+    public partial class Dictionary_en_vnContext : DbContext {
+        public Dictionary_en_vnContext() {
         }
 
         public Dictionary_en_vnContext(DbContextOptions<Dictionary_en_vnContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
 
         public virtual DbSet<Definition> Definitions { get; set; } = null!;
@@ -24,25 +20,20 @@ namespace DictionaryAPI.Models
         public virtual DbSet<Word> Words { get; set; } = null!;
         public virtual DbSet<WordDefinition> WordDefinitions { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+            if (!optionsBuilder.IsConfigured) {
                 var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-                optionsBuilder.UseSqlServer(config.GetConnectionString("DB"));
+                optionsBuilder.UseSqlServer(config.GetConnectionString("DBOnline"));
 
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Definition>(entity =>
-            {
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<Definition>(entity => {
                 entity.ToTable("Definition");
             });
 
-            modelBuilder.Entity<Example>(entity =>
-            {
+            modelBuilder.Entity<Example>(entity => {
                 entity.ToTable("Example");
 
                 entity.HasOne(d => d.Definition)
@@ -51,15 +42,13 @@ namespace DictionaryAPI.Models
                     .HasConstraintName("FK__Example__Definit__440B1D61");
             });
 
-            modelBuilder.Entity<Type>(entity =>
-            {
+            modelBuilder.Entity<Type>(entity => {
                 entity.ToTable("Type");
 
                 entity.Property(e => e.Title).HasMaxLength(20);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
+            modelBuilder.Entity<User>(entity => {
                 entity.ToTable("User");
 
                 entity.Property(e => e.Password).IsUnicode(false);
@@ -73,10 +62,9 @@ namespace DictionaryAPI.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<UserDetail>(entity =>
-            {
+            modelBuilder.Entity<UserDetail>(entity => {
                 entity.HasKey(e => e.UserId)
-                    .HasName("PK__UserDeta__1788CC4C58E4F984");
+                    .HasName("PK__UserDeta__1788CC4C5963B34A");
 
                 entity.ToTable("UserDetail");
 
@@ -97,13 +85,12 @@ namespace DictionaryAPI.Models
                     .HasConstraintName("FK__UserDetai__UserI__398D8EEE");
             });
 
-            modelBuilder.Entity<Word>(entity =>
-            {
+            modelBuilder.Entity<Word>(entity => {
                 entity.ToTable("Word");
 
                 entity.HasIndex(e => e.Id, "IDX_WordText");
 
-                entity.HasIndex(e => e.WordText, "UQ__Word__918B59BD70999499")
+                entity.HasIndex(e => e.WordText, "UQ__Word__918B59BDAFC99036")
                     .IsUnique();
 
                 entity.Property(e => e.Status)
@@ -111,7 +98,7 @@ namespace DictionaryAPI.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.WordText)
-                    .HasMaxLength(20)
+                    .HasMaxLength(100)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.AddByUserNavigation)
@@ -125,9 +112,8 @@ namespace DictionaryAPI.Models
                         "AntonymsWord",
                         l => l.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5535A963"),
                         r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__5441852A"),
-                        j =>
-                        {
-                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FE9D8B30C");
+                        j => {
+                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FC90C93F7");
 
                             j.ToTable("Antonyms_Word");
 
@@ -140,9 +126,8 @@ namespace DictionaryAPI.Models
                         "SynonymsWord",
                         l => l.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5165187F"),
                         r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__5070F446"),
-                        j =>
-                        {
-                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB81516CC4AAF1C");
+                        j => {
+                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB81516CEA93900");
 
                             j.ToTable("Synonyms_Word");
 
@@ -155,9 +140,8 @@ namespace DictionaryAPI.Models
                         "Favourite",
                         l => l.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__UserI__4CA06362"),
                         r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__WordI__4D94879B"),
-                        j =>
-                        {
-                            j.HasKey("WordId", "UserId").HasName("PK__Favourit__FD587CA255A5AD43");
+                        j => {
+                            j.HasKey("WordId", "UserId").HasName("PK__Favourit__FD587CA2219F8921");
 
                             j.ToTable("Favourite");
                         });
@@ -168,9 +152,8 @@ namespace DictionaryAPI.Models
                         "AntonymsWord",
                         l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__5441852A"),
                         r => r.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5535A963"),
-                        j =>
-                        {
-                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FE9D8B30C");
+                        j => {
+                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FC90C93F7");
 
                             j.ToTable("Antonyms_Word");
 
@@ -183,9 +166,8 @@ namespace DictionaryAPI.Models
                         "SynonymsWord",
                         l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__5070F446"),
                         r => r.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5165187F"),
-                        j =>
-                        {
-                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB81516CC4AAF1C");
+                        j => {
+                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB81516CEA93900");
 
                             j.ToTable("Synonyms_Word");
 
@@ -193,16 +175,12 @@ namespace DictionaryAPI.Models
                         });
             });
 
-            modelBuilder.Entity<WordDefinition>(entity =>
-            {
-                entity.HasKey(e => new { e.WordId, e.TypeId })
-                    .HasName("PK__Word_Def__6936005DD538FD07");
-
+            modelBuilder.Entity<WordDefinition>(entity => {
                 entity.ToTable("Word_Definition");
 
                 entity.HasIndex(e => e.DefinitionId, "IDX_Word_Definition");
 
-                entity.HasIndex(e => e.DefinitionId, "UQ__Word_Def__9D6655152647B802")
+                entity.HasIndex(e => e.DefinitionId, "UQ__Word_Def__9D665515E10CC19C")
                     .IsUnique();
 
                 entity.HasOne(d => d.Definition)
@@ -213,13 +191,11 @@ namespace DictionaryAPI.Models
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.WordDefinitions)
                     .HasForeignKey(d => d.TypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Word_Defi__TypeI__48CFD27E");
 
                 entity.HasOne(d => d.Word)
                     .WithMany(p => p.WordDefinitions)
                     .HasForeignKey(d => d.WordId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Word_Defi__WordI__47DBAE45");
             });
 

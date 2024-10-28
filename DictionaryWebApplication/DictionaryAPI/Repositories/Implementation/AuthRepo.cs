@@ -25,7 +25,7 @@ namespace DictionaryAPI.Repositories.Implementation {
             return user;
         }
 
-        public User? GetUserByEmailOrUsername_AndPassword(string emailOrUsername, string password) {
+        public User? GetUserByEmailOrUsername_AndPassword(string? emailOrUsername, string? password) {
             User? user = _context.Users
                 .Include(u => u.UserDetail)
                 .FirstOrDefault(u => (u.UserDetail.Email == emailOrUsername || u.Username == emailOrUsername) &&

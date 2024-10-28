@@ -6,7 +6,7 @@ namespace DictionaryAPI.Repositories {
         public User? GetUserByEmail(string email);
         public User? GetUserByUsername(string username);
         public User? GetUserByEmailOrUsername(string emailOrUsername);
-        public User? GetUserByEmailOrUsername_AndPassword(string emailOrUsername, string password);
+        public User? GetUserByEmailOrUsername_AndPassword(string? emailOrUsername, string? password);
         public void Create(User user);
     }
 }

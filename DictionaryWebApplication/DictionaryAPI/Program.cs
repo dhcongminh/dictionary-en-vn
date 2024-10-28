@@ -9,9 +9,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
+using DictionaryAPI.Policies.Requirements;
+using DictionaryAPI.Policies.AuthorizationHandler;
+using Microsoft.AspNetCore.Authorization;
+using DictionaryAPI.Helper.EmailSender;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost3000", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowCredentials()     // Access-Control-Allow-Credentials: true
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .SetIsOriginAllowedToAllowWildcardSubdomains(); // Optional if you need subdomain handling
+    });
+});
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
@@ -55,7 +70,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Secret"]))
         };
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(
+    options => {
+        options.AddPolicy("WordOwnerPolicy", policy => {
+            policy.Requirements.Add(new WordOwnerRequirement());
+        });
+        options.AddPolicy("WordListViewOwnerPolicy", policy => {
+            policy.Requirements.Add(new WordListViewOwnerRequirement());
+        });
+    });
+builder.Services.AddSingleton<IAuthorizationHandler, WordOwnerAuthorizationHandler>();
+builder.Services.AddSingleton<IAuthorizationHandler, WordListViewOwnerAuthorizationHandler>();
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IWordRepo, WordRepo>();
@@ -72,7 +97,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors("AllowLocalhost3000");
 app.UseHttpsRedirection();
 app.MapControllers();
 app.UseAuthentication();

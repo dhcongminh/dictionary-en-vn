@@ -8,6 +8,7 @@ namespace DictionaryAPI.Repositories {
         public Word? Restore(int id);
         public List<Word> GetAll();
         public List<Word> GetWordsStartWith(string text);
+        public List<Word> GetWordsByAddedUser(int uid);
         public Word? GetWordById(int id);
         public Word? GetWordByWordText(string word_text);
         public Example GetWordExampleByText(string text);

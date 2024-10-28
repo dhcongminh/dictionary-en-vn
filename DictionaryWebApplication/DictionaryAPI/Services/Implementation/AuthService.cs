@@ -17,29 +17,22 @@ namespace DictionaryAPI.Services.Implementation {
         }
         public AuthResultDTO Login(string? emailOrUsername, string? password) {
             AuthResultDTO result = new AuthResultDTO();
-            result.Action = "Login";
-            if (emailOrUsername == null || password == null) {
+            if (string.IsNullOrEmpty(emailOrUsername) || string.IsNullOrEmpty(password)) {
                 result.Errors.Add("Fields must not be empty.");
-            } else {
-                User? user = _repo.GetUserByEmailOrUsername_AndPassword(emailOrUsername, password);
-                if (user == null) {
-                    result.Errors.Add("Incorrect information.");
-                } else {
-                    if (result.Errors.Count > 0) {
-                        result.IsSuccess = false;
-                    } else {
-                        result.IsSuccess = true;
-                        result.Token = GenerateJwtToken(user);
-                    }
-                }
             }
+            User? user = _repo.GetUserByEmailOrUsername_AndPassword(emailOrUsername, password);
+            if (user != null) {
+                result.User = user;
+                result.Token = GenerateJwtToken(user);
+                result.ExpireTime = GetExpirationDate();
+            }
+
             return result;
         }
 
         public AuthResultDTO Register(string? email, string? username, string? password) {
             AuthResultDTO result = new AuthResultDTO();
-            result.Action = "Register";
-            if (email == null || username == null || password == null) {
+            if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) {
                 result.Errors.Add("Some required fields are not completed.");
             } else {
                 if (_repo.GetUserByEmail(email) != null) {
@@ -48,10 +41,7 @@ namespace DictionaryAPI.Services.Implementation {
                 if (_repo.GetUserByUsername(username) != null) {
                     result.Errors.Add("Username already exists in the system.");
                 }
-                if (result.Errors.Count > 0) {
-                    result.IsSuccess = false;
-                } else {
-                    result.IsSuccess= true;
+                if (result.Errors.Count == 0) { 
                     User? user = new User();
                     user.Username = username;
                     user.Password = password;
@@ -59,26 +49,69 @@ namespace DictionaryAPI.Services.Implementation {
                     user.UserDetail = new UserDetail();
                     user.UserDetail.Email = email;
                     _repo.Create(user);
-                    user = _repo.GetUserByEmailOrUsername_AndPassword(username, password);
                     if (user != null) {
+                        result.User = user;
                         result.Token = GenerateJwtToken(user);
+                        result.ExpireTime = GetExpirationDate();
                     }
                 }
             }
             return result;
         }
 
+        public DateTime GetExpirationDate() {
+            var expireTimeSetting = _configuration["Jwt:ExpireTime"];
+            if (string.IsNullOrEmpty(expireTimeSetting)) {
+                throw new InvalidOperationException("ExpireTime is not configured.");
+            }
+
+            // Split the string into the numeric part and the unit
+            var parts = expireTimeSetting.Split('-');
+            if (parts.Length != 2 || !int.TryParse(parts[0], out var duration) || string.IsNullOrEmpty(parts[1])) {
+                throw new FormatException("ExpireTime format is invalid. Expected format: '<number>-<unit>'");
+            }
+
+            // Parse the duration and unit
+            var unit = parts[1].ToLower();
+            TimeSpan timeSpan;
+
+            switch (unit) {
+                case "minutes":
+                    timeSpan = TimeSpan.FromMinutes(duration);
+                    break;
+                case "days":
+                    timeSpan = TimeSpan.FromDays(duration);
+                    break;
+                default:
+                    throw new InvalidOperationException("Unknown time unit. Use 'Minutes' or 'Days'.");
+            }
+
+            // Calculate the expiration date by adding the time span to the current date and time
+            return DateTime.Now.Add(timeSpan);
+        }
+
         private string GenerateJwtToken(User user) {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+            var expireTimeConfig = _configuration["Jwt:ExpireTime"];
+            DateTime? expireTime = null;
+            if (expireTimeConfig.Contains("Minutes")) {
+                int minute = Int32.Parse(expireTimeConfig.Split("-")[0]);
+                expireTime = DateTime.UtcNow.AddMinutes(minute);
+            } else if (expireTimeConfig.Contains("Days")) {
+                int day = Int32.Parse(expireTimeConfig.Split("-")[0]);
+                expireTime = DateTime.UtcNow.AddDays(day);
+            }
             var tokenDescriptor = new SecurityTokenDescriptor {
-                Subject = new ClaimsIdentity(new[]
-                {
-                new Claim(ClaimTypes.Name, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role ?? _configuration["Roles:Member"])
+                Subject = new ClaimsIdentity(new[] {
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.Name, user.Username.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role ?? _configuration["Roles:Member"])
                 }),
-                Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+                Expires = expireTime,
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key), 
+                    SecurityAlgorithms.HmacSha256Signature),
                 Issuer = _configuration["Jwt:Issuer"],
                 Audience = _configuration["Jwt:Audience"]
             };
@@ -88,7 +121,7 @@ namespace DictionaryAPI.Services.Implementation {
 
 
         public bool AdminRoleAuthorization(string? role) {
-            if (role == null || role != "Admin system") {
+            if (string.IsNullOrEmpty(role) || role != "Admin system") {
                 return false;
             } else {
                 return true;

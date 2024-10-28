@@ -5,9 +5,9 @@ builder.Services.AddControllersWithViews();
 var app = builder.Build();
 
 app.UseRouting();
+app.UseStaticFiles();
 app.MapControllerRoute(
-    name: "",
-    pattern: ""
-);
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}");
 
 app.Run();
