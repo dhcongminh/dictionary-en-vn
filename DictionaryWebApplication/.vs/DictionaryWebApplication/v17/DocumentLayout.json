@@ -3,60 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\controllers\\wordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\controllers\\wordcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|c:\\users\\acer\\documents\\fu\\ky_8\\prn231\\projects\\final\\dictionary-en-vn\\dictionarywebapplication\\dictionaryapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|c:\\users\\acer\\documents\\fu\\ky_8\\prn231\\projects\\final\\dictionary-en-vn\\dictionarywebapplication\\dictionaryapi\\models\\word.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\word.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\services\\implementation\\mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\services\\implementation\\mapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\models\\wordset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\wordset.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|c:\\users\\acer\\documents\\fu\\ky_8\\prn231\\projects\\final\\dictionary-en-vn\\dictionarywebapplication\\dictionaryapi\\repositories\\implementation\\wordrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\repositories\\implementation\\wordrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\services\\implementation\\wordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\services\\implementation\\wordservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\models\\worddefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\worddefinition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\services\\implementation\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\services\\implementation\\authservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\models\\userdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\userdetail.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\helper\\emailsender\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\helper\\emailsender\\iemailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\helper\\emailsender\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\helper\\emailsender\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\dictionaryapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{66380C8A-1BE6-4999-AF07-3DC7D04B8584}|DictionaryAPI\\DictionaryAPI.csproj|solutionrelative:dictionaryapi\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -66,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 224,
-          "SelectedChildIndex": 146,
+          "SelectedChildIndex": 147,
           "Children": [
             {
               "$type": "Bookmark",
@@ -646,177 +606,53 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\User.cs",
               "RelativeDocumentMoniker": "DictionaryAPI\\Models\\User.cs",
               "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\User.cs",
               "RelativeToolTip": "DictionaryAPI\\Models\\User.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAATAAAA",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBUAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T09:27:03.429Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-06T10:12:41.81Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Word.cs",
               "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\Word.cs",
               "RelativeDocumentMoniker": "DictionaryAPI\\Models\\Word.cs",
               "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\Word.cs",
               "RelativeToolTip": "DictionaryAPI\\Models\\Word.cs",
-              "ViewState": "AQIAAAoAAAAAAAAAAAAgwBgAAAAbAAAA",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBMAAAAjAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T09:26:57.592Z",
+              "WhenOpened": "2024-11-06T10:02:36.972Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WordSet.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\WordSet.cs",
+              "RelativeDocumentMoniker": "DictionaryAPI\\Models\\WordSet.cs",
+              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\WordSet.cs",
+              "RelativeToolTip": "DictionaryAPI\\Models\\WordSet.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAuwBQAAAAnAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-06T10:02:33.915Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "WordController.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\WordController.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Controllers\\WordController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\WordController.cs",
-              "RelativeToolTip": "DictionaryAPI\\Controllers\\WordController.cs",
-              "ViewState": "AQIAAFAAAAAAAAAAAAAAwGcAAAAzAAAA",
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "DictionaryAPI\\Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\UserController.cs",
+              "RelativeToolTip": "DictionaryAPI\\Controllers\\UserController.cs",
+              "ViewState": "AQIAADYAAAAAAAAAAAAswEoAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T02:39:42.327Z",
+              "WhenOpened": "2024-11-06T09:51:06.736Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "WordDefinition.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\WordDefinition.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Models\\WordDefinition.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\WordDefinition.cs",
-              "RelativeToolTip": "DictionaryAPI\\Models\\WordDefinition.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T02:39:38.549Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\appsettings.json",
-              "RelativeDocumentMoniker": "DictionaryAPI\\appsettings.json",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\appsettings.json",
-              "RelativeToolTip": "DictionaryAPI\\appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-10-28T02:21:02.307Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "UserDetail.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\UserDetail.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Models\\UserDetail.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Models\\UserDetail.cs",
-              "RelativeToolTip": "DictionaryAPI\\Models\\UserDetail.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAATAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T17:14:02.265Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "AuthService.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\AuthService.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Services\\Implementation\\AuthService.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\AuthService.cs",
-              "RelativeToolTip": "DictionaryAPI\\Services\\Implementation\\AuthService.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAuwDIAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T17:05:43.448Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "WordRepo.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Repositories\\Implementation\\WordRepo.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Repositories\\Implementation\\WordRepo.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Repositories\\Implementation\\WordRepo.cs",
-              "RelativeToolTip": "DictionaryAPI\\Repositories\\Implementation\\WordRepo.cs",
-              "ViewState": "AQIAABoAAAAAAAAAAAAwwDAAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T04:01:42.94Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "WordService.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\WordService.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Services\\Implementation\\WordService.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\WordService.cs",
-              "RelativeToolTip": "DictionaryAPI\\Services\\Implementation\\WordService.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAhwDMAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T02:40:38.968Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "AuthController.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\AuthController.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Controllers\\AuthController.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Controllers\\AuthController.cs",
-              "RelativeToolTip": "DictionaryAPI\\Controllers\\AuthController.cs",
-              "ViewState": "AQIAADAAAAAAAAAAAAAuwFIAAABaAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T09:55:39.368Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Mapper.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\Mapper.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Services\\Implementation\\Mapper.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Services\\Implementation\\Mapper.cs",
-              "RelativeToolTip": "DictionaryAPI\\Services\\Implementation\\Mapper.cs",
-              "ViewState": "AQIAADsAAAAAAAAAAAAwwGAAAAA0AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-28T02:41:09.769Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Program.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Program.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Program.cs",
-              "RelativeToolTip": "DictionaryAPI\\Program.cs",
-              "ViewState": "AQIAAFMAAAAAAAAAAAAvwGkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T09:53:24.007Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "EmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Helper\\EmailSender\\EmailSender.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Helper\\EmailSender\\EmailSender.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Helper\\EmailSender\\EmailSender.cs",
-              "RelativeToolTip": "DictionaryAPI\\Helper\\EmailSender\\EmailSender.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAA9AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T09:48:30.04Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "IEmailSender.cs",
-              "DocumentMoniker": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Helper\\EmailSender\\IEmailSender.cs",
-              "RelativeDocumentMoniker": "DictionaryAPI\\Helper\\EmailSender\\IEmailSender.cs",
-              "ToolTip": "C:\\Users\\ACER\\Documents\\FU\\ky_8\\PRN231\\Projects\\Final\\dictionary-en-vn\\DictionaryWebApplication\\DictionaryAPI\\Helper\\EmailSender\\IEmailSender.cs",
-              "RelativeToolTip": "DictionaryAPI\\Helper\\EmailSender\\IEmailSender.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAABIAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-27T09:47:41.75Z"
             }
           ]
         },

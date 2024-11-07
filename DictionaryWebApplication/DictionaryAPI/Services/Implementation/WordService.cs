@@ -56,13 +56,17 @@ namespace DictionaryAPI.Services.Implementation {
 
         public string Insert(WordInputDTO word) {
             if (_repo.GetWordByWordText(word.WordText.Trim()) != null) {
-                return _config["word exist"];
+                return "word exist";
             }
             Word data = _mapper.DtoToWord(word);
             Word? w = _repo.Create(data);
             if (w != null)
                 return _config["Messages:Successes:ADD_WORD"];
             return _config["Messages:Errors:ADD_WORD"];
+        }
+
+        public dynamic? LookUp(string search) {
+            return _mapper.WordToLookupDto(_repo.GetWordByWordText(search));
         }
 
         public string Restore(int id) {
@@ -78,7 +82,7 @@ namespace DictionaryAPI.Services.Implementation {
                 return _config["Messages:Errors:WORD_NOT_FOUND"];
             }
             if (_repo.GetWordByWordText(dto.WordText) != null && dto.WordText != word.WordText) {
-                return _config["word exist"];
+                return "word exist";
             }
 
             word.WordText = dto.WordText;
@@ -87,6 +91,9 @@ namespace DictionaryAPI.Services.Implementation {
             word.AddByUser = dto.AddByUser;
             word.Status = dto.Status;
             word.Antonyms.Clear();
+            word.Synonyms.Clear();
+            word.WordDefinitions.Clear();
+            _repo.Update(word);
             if (dto.Antonyms != null && dto.Antonyms.Count > 0) {
                 foreach (var antonym in dto.Antonyms) {
                     Word? search = _repo.GetWordByWordText(antonym);
@@ -94,7 +101,6 @@ namespace DictionaryAPI.Services.Implementation {
                         word.Antonyms.Add(search);
                 }
             }
-            word.Synonyms.Clear();
             if (dto.Synonyms != null && dto.Synonyms.Count > 0) {
                 foreach (var synonym in dto.Synonyms) {
                     Word? search = _repo.GetWordByWordText(synonym);
@@ -102,7 +108,6 @@ namespace DictionaryAPI.Services.Implementation {
                         word.Synonyms.Add(search);
                 }
             }
-            word.WordDefinitions.Clear();
             if (dto.WordDefinitions != null && dto.WordDefinitions.Count > 0) {
                 foreach (var definition in dto.WordDefinitions) {
                     word.WordDefinitions.Add(_mapper.WordDefinitionDtoToWordDefinition(definition));

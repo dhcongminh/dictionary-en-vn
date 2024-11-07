@@ -23,6 +23,7 @@ import DataContainer from "../../../api/DictionaryApiCall";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import Authentication from "../../../others/Authentication";
+import { useNavigate } from "react-router-dom";
 
 const GrossaryList = ({
   grossaryList,
@@ -31,11 +32,13 @@ const GrossaryList = ({
   setIsLoading,
   setAction,
   fetchAllWord,
+  page,
+  setPage,
+  rowsPerPage,
+  setRowsPerPage
 }) => {
   var rows = grossaryList ? [...grossaryList] : [];
-
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const nav = useNavigate();
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
@@ -65,6 +68,10 @@ const GrossaryList = ({
   };
 
   const handleEdit = (wordid) => {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     setIsLoading(true);
     setAction("Chỉnh sửa");
     DataContainer.getGrossaryByWordId(wordid)
@@ -79,6 +86,10 @@ const GrossaryList = ({
       });
   };
   const handleDelete = (wordid) => {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     Swal.fire({
       title: "Xác nhận tắt trạng thái từ?",
       text: "Từ này sẽ không được hiển thị đối với tất cả người dùng!",
@@ -114,6 +125,10 @@ const GrossaryList = ({
     });
   };
   const handleRestore = (wordid) => {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     Swal.fire({
       title: "Xác nhận bật trạng thái từ?",
       text: "Từ này sẽ được hiển thị đối với tất cả người dùng!",

@@ -10,12 +10,14 @@ import {
   Tooltip,
 } from "@mui/material";
 import CollectionsBookmarkIcon from "@mui/icons-material/CollectionsBookmark";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+//import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import React from "react";
 import Authentication from "../../others/Authentication";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+//import Swal from "sweetalert2";
 
 const UserMenu = () => {
   const nav = useNavigate();
@@ -37,21 +39,30 @@ const UserMenu = () => {
     setAnchorEl(null);
     window.location.reload();
   }
-  function navToFavourite() {
-    nav("/favourite");
-    setAnchorEl(null);
-    window.location.reload();
-  }
+  // function navToFavourite() {
+  //   //nav("/favourite"); window.location.reload();
+  //   setAnchorEl(null);
+  //   Swal.fire({
+  //     icon: "info",
+  //     title: "Coming soon",
+  //   });
+    
+  // }
   function navToGrossaryAdd() {
-    nav("/grossaries/form");
+    nav("/grossaries?act=add");
     setAnchorEl(null);
     window.location.reload();
   }
   function handleLogout() {
     Authentication.clearLocalStorage();
     nav("/");
-    toast.success("Đăng xuất thành công.")
+    toast.success("Đăng xuất thành công.");
     setAnchorEl(null);
+  }
+  function navToWordSet(){
+    nav("/word-set");
+    setAnchorEl(null);
+    window.location.reload();
   }
   return (
     <>
@@ -136,17 +147,23 @@ const UserMenu = () => {
           Từ điển của tôi
         </MenuItem>
         <Divider />
-        <MenuItem onClick={navToFavourite}>
+        {/* <MenuItem onClick={navToFavourite}>
           <ListItemIcon>
             <FavoriteIcon fontSize="small" />
           </ListItemIcon>
           Từ yêu thích của tôi
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={navToGrossaryAdd}>
           <ListItemIcon>
             <AddBoxIcon fontSize="small" />
           </ListItemIcon>
           Thêm từ vựng mới
+        </MenuItem>
+        <MenuItem onClick={navToWordSet}>
+          <ListItemIcon>
+            <LibraryBooksIcon fontSize="small" />
+          </ListItemIcon>
+          Bộ từ vựng
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <ListItemIcon>

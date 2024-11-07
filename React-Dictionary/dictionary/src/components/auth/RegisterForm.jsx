@@ -1,17 +1,14 @@
 import {
   Box,
   Button,
-  Checkbox,
+  // Checkbox,
   Container,
-  Divider,
   FormControl,
-  FormControlLabel,
+  // FormControlLabel,
   Typography,
   Card,
   TextField,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Authentication from "../../others/Authentication";
@@ -46,9 +43,9 @@ const RegisterForm = ({ setIsLoading }) => {
       toast.warning("Vui lòng kiểm tra lại thông tin.");
     }
     const data = new FormData(event.currentTarget);
-    if (data.get("isRemember")) {
-      //remember here
-    }
+    // if (data.get("isRemember")) {
+    //   //remember here
+    // }
     var registerUser = {
       username: data.get("username"),
       email: data.get("email"),
@@ -199,33 +196,14 @@ const RegisterForm = ({ setIsLoading }) => {
               onChange={validateInputs}
             />
           </FormControl>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value={true} color="primary" />}
             label="Remember me"
             name="isRemember"
             sx={{ mt: 3 }}
-          />
+          /> */}
           <Button type="submit" fullWidth variant="contained">
             Đăng ký
-          </Button>
-        </Box>
-        <Divider sx={{ mt: 3 }}>hoặc</Divider>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert("Sign in with Google")}
-            startIcon={<GoogleIcon />}
-          >
-            Đăng ký bằng Google
-          </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert("Sign in with Facebook")}
-            startIcon={<FacebookIcon />}
-          >
-            đăng ký bằng facebook
           </Button>
         </Box>
       </Card>

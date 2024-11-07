@@ -9,7 +9,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import UserMenu from "../user/UserMenu";
 import Authentication from "../../others/Authentication";
 
-const Header = () => {
+const Header = ( {setIsSideBarShow} ) => {
   const [currentPage, setCurrentPage] = React.useState("");
   const nav = useNavigate();
   const location = useLocation();
@@ -19,6 +19,9 @@ const Header = () => {
     else if (path === "/auth/login") setCurrentPage("Đăng nhập");
     else if (path === "/auth/register") setCurrentPage("Đăng ký");
   }, [location.pathname]);
+  const navAdminPage = () => {
+    setIsSideBarShow(true);
+  }
   return (
     <Box>
       <Container sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,7 +39,7 @@ const Header = () => {
           />
           {Authentication.isAdmin() && (
             <BottomNavigationAction
-              onClick={() => nav("/administration")}
+              onClick={navAdminPage}
               value={"Administration"}
               label="Administration"
             />

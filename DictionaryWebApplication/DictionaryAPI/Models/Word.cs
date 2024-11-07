@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace DictionaryAPI.Models
 {
@@ -11,6 +12,7 @@ namespace DictionaryAPI.Models
             Antonyms = new HashSet<Word>();
             Synonyms = new HashSet<Word>();
             Users = new HashSet<User>();
+            WordSets = new HashSet<WordSet>();
             Words = new HashSet<Word>();
             WordsNavigation = new HashSet<Word>();
         }
@@ -21,13 +23,16 @@ namespace DictionaryAPI.Models
         public string? Phonetic { get; set; }
         public int? AddByUser { get; set; }
         public string? Status { get; set; }
-
+        [JsonIgnore]
         public virtual User? AddByUserNavigation { get; set; }
         public virtual ICollection<WordDefinition> WordDefinitions { get; set; }
 
         public virtual ICollection<Word> Antonyms { get; set; }
         public virtual ICollection<Word> Synonyms { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<WordSet> WordSets { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Word> Words { get; set; }
         public virtual ICollection<Word> WordsNavigation { get; set; }
     }

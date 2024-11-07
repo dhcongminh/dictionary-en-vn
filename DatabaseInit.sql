@@ -86,6 +86,20 @@ CREATE TABLE Antonyms_Word (
 	PRIMARY KEY (WordId, AntonymsId)
 )
 
+
+CREATE TABLE WordSet (
+	Id INT IDENTITY(1, 1) PRIMARY KEY,
+	UserId INT FOREIGN KEY REFERENCES [User](Id),
+	NameOfSet NVARCHAR(MAX),
+
+)
+
+CREATE TABLE WordSetItem (
+	WordSetId INT FOREIGN KEY REFERENCES WordSet(Id),
+	WordId INT FOREIGN KEY REFERENCES Word(Id),
+	PRIMARY KEY (WordSetId, WordId),
+)
+
 /*******************************************************************************
    Data
 ********************************************************************************/
@@ -102,6 +116,8 @@ INSERT INTO [Type](Title) VALUES
 
 INSERT INTO [User] (Username, [Password], [Role], IsActive)
 VALUES ('admin', '12341234', 'Admin system', 1);
+INSERT INTO [UserDetail] (UserId, Email)
+VALUES (1, 'admin@dictionary.com');
 
 /*******************************************************************************
    Index
@@ -115,6 +131,9 @@ ON Antonyms_Word (AntonymsId);
 GO
 CREATE INDEX IDX_WordText
 ON Word (Id);
+GO
+CREATE INDEX IDX_WordId 
+ON Word (WordText);
 GO
 CREATE INDEX IDX_Word_Definition
 ON Word_Definition (DefinitionId);

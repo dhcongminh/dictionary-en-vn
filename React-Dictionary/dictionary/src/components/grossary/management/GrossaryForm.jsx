@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Authentication from "../../../others/Authentication";
 import DataContainer from "../../../api/DictionaryApiCall";
 import { toast } from "react-toastify";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import Swal from "sweetalert2";
 
 const GrossaryForm = ({
@@ -28,13 +29,16 @@ const GrossaryForm = ({
     grossaryDetail
       ? grossaryDetail.status
       : Authentication.isAdmin()
-      ? ""
-      : "pending"
+        ? ""
+        : "pending"
   );
   const [duplicated, setDuplicated] = useState([]);
 
   useEffect(() => {
-    FetchAllActiveAndPendingOfUserWord();
+    console.log(grossaryDetail);
+    FetchAllActiveAndPendingOfUserWord().then((data) => {
+      setWords(data);
+    });
     if (grossaryDetail === null) {
       var userId = Authentication.userId();
       setWord({
@@ -58,7 +62,6 @@ const GrossaryForm = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  
 
   useEffect(() => {
     new window.MultiSelectTag("antonyms", {
@@ -112,9 +115,17 @@ const GrossaryForm = ({
       if (action === "Thêm") {
         DataContainer.AddWord(word)
           .then((res) => {
-            toast.success("Thêm từ thành công.");
-            setAction("Chỉnh sửa");
-            setCurrentPage(0);
+            if (res.data === "word exist") {
+              Swal.fire({
+                icon: "error",
+                title: "Lỗi xung đột",
+                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+              });
+            } else {
+              toast.success("Thêm từ thành công.");
+              setAction("Chỉnh sửa");
+              setCurrentPage(0);
+            }
           })
           .catch((err) => {
             toast.error(err.message);
@@ -127,9 +138,17 @@ const GrossaryForm = ({
       } else if (action === "Chỉnh sửa") {
         DataContainer.UpdateWord(word.id, word)
           .then((res) => {
-            toast.success("Chỉnh sửa từ thành công.");
-            setAction("Chỉnh sửa");
-            setCurrentPage(0);
+            if (res.data === "word exist") {
+              Swal.fire({
+                icon: "error",
+                title: "Lỗi xung đột",
+                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+              });
+            } else {
+              toast.success("Chỉnh sửa từ thành công.");
+              setAction("Chỉnh sửa");
+              setCurrentPage(0);
+            }
           })
           .catch((err) => {
             toast.error(err.message);
@@ -144,14 +163,22 @@ const GrossaryForm = ({
       if (action === "Thêm") {
         DataContainer.RequestAddWord(word)
           .then((res) => {
-            Swal.fire({
-              title: "Thành công",
-              icon: "success",
-              text: "Từ thêm thành công nhưng sẽ không được hiển thị ở mục tra cứu cho đến khi được chấp nhận bởi Quản trị hệ thống.",
-              showCloseButton: false,
-            });
-            setAction("Chỉnh sửa");
-            setCurrentPage(0);
+            if (res.data === "word exist") {
+              Swal.fire({
+                icon: "error",
+                title: "Lỗi xung đột",
+                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+              });
+            } else {
+              Swal.fire({
+                title: "Thành công",
+                icon: "success",
+                text: "Từ thêm thành công nhưng sẽ không được hiển thị ở mục tra cứu cho đến khi được chấp nhận bởi Quản trị hệ thống.",
+                showCloseButton: false,
+              });
+              setAction("Chỉnh sửa");
+              setCurrentPage(0);
+            }
           })
           .catch((err) => {
             toast.error(err.message);
@@ -164,14 +191,22 @@ const GrossaryForm = ({
       } else if (action === "Chỉnh sửa") {
         DataContainer.RequestEditWord(word.id, word)
           .then((res) => {
-            Swal.fire({
-              title: "Thành công",
-              icon: "success",
-              text: "Từ được sửa thành công nhưng sẽ không hiển thị ở mục tra cứu cho đến khi được chấp nhận bởi Quản trị hệ thống.",
-              showCloseButton: false,
-            });
-            setAction("Chỉnh sửa");
-            setCurrentPage(0);
+            if (res.data === "word exist") {
+              Swal.fire({
+                icon: "error",
+                title: "Lỗi xung đột",
+                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+              });
+            } else {
+              Swal.fire({
+                title: "Thành công",
+                icon: "success",
+                text: "Từ được sửa thành công nhưng sẽ không hiển thị ở mục tra cứu cho đến khi được chấp nhận bởi Quản trị hệ thống.",
+                showCloseButton: false,
+              });
+              setAction("Chỉnh sửa");
+              setCurrentPage(0);
+            }
           })
           .catch((err) => {
             toast.error(err.message);
@@ -187,28 +222,31 @@ const GrossaryForm = ({
   function ValidateWordInfo() {
     var errors = [];
     for (const d of word.wordDefinitions) {
-      if (!d.type || d.type === "") {
-        errors.push("Loại từ không được phép để trống.");
+      if (!d.type || d.type.trim() === "" || !d.definitions.detail.trim()) {
+        errors.push("Loại từ và Giải nghĩa không được phép để trống.");
         break;
       }
     }
-    if (word.wordText === "") {
+    if (word.wordText.trim() === "") {
       errors.push("Từ tiếng anh không được phép để trống.");
+    }
+    if (word.wordText.trim().length > 45) {
+      errors.push("Độ dài từ tiếng anh không vượt quá 45 kí tự.");
     }
     if (duplicated.length > 0) {
       errors.push(
         `(Các) từ [<span class="fw-bold">${duplicated}</span>] không thể cùng lúc là từ trái nghĩa và từ đồng nghĩa của từ <span class="fw-bold">${word.wordText}</span>`
       );
     }
-    if (word.status === "") {
+    if (word.status.trim() === "") {
       errors.push("Vui lòng chọn trạng thái từ.");
     }
 
-    if (word.shortDefinition === "") {
+    if (word.shortDefinition.trim() === "") {
       errors.push("Vui lòng thêm nghĩa phổ biến cho từ: Dịch nhanh.");
     }
 
-    if (word.phonetic === "") {
+    if (word.phonetic.trim() === "") {
       errors.push("Phiên âm không được phép để trống.");
     }
 
@@ -264,11 +302,11 @@ const GrossaryForm = ({
     word.wordDefinitions[defindex].type = e.target.value;
   }
   function handleDefinitionDetailChange(defindex, e) {
-    word.wordDefinitions[defindex].definitions.detail = e.target.value;
+    word.wordDefinitions[defindex].definitions.detail = e.target.value.trim();
   }
   function handleExampleChange(defindex, exindex, e) {
     word.wordDefinitions[defindex].definitions.examples[exindex] =
-      e.target.value;
+      e.target.value.trim();
   }
   function handleAntonymsChange(words) {
     word.antonyms = words;
@@ -282,33 +320,32 @@ const GrossaryForm = ({
     setDuplicated([...words.filter((item) => word.antonyms.includes(item))]);
   }
   function FetchAllActiveAndPendingOfUserWord() {
-    setIsLoading(true);
-    DataContainer.getAllWord()
-      .then((res) => {
-        if (action === "Chỉnh sửa") {
-          setWords(() => {
-            var wordsAddByMember = res.data.filter((w) => w.userAdded.username === Authentication.username() && w.wordText !== grossaryDetail.wordText);
-            var otherActiveWords = res.data.filter(w => w.status === "active");
-            return [...new Set([...wordsAddByMember, ...otherActiveWords])];
-          });
-        } else {
-          setWords(() => {
-            var wordsAddByMember = res.data.filter((w) => w.userAdded.username === Authentication.username());
-            var otherActiveWords = res.data.filter(w => w.status === "active");
-            return [...new Set([...wordsAddByMember, ...otherActiveWords])];
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Lỗi mạng...");
-        setCurrentPage(0);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    return new Promise((resolve, reject) => {
+      DataContainer.getAllWord()
+        .then((res) => {
+          var allActiveWords = res.data.filter((w) => w.status === "active");
+          var wordsAddByMember = res.data.filter(
+            (w) => w.userAdded.username === Authentication.username()
+          );
+          var finalDatas = [
+            ...new Set([...wordsAddByMember, ...allActiveWords]),
+          ];
+          if (action === "Chỉnh sửa") {
+            finalDatas = finalDatas.filter(
+              (d) => d.wordText !== grossaryDetail.wordText
+            );
+          }
+          resolve(finalDatas);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   }
   function handleDefExampleChange(defindex, exindex, e) {
+    if (e.target.value.trim() === "") {
+      e.target.value = "";
+    }
     var exs =
       word.wordDefinitions[defindex].definitions.examples[exindex].split(
         "@dhcongminh@"
@@ -316,29 +353,48 @@ const GrossaryForm = ({
     if (exs.length > 0) {
       exs[1] = e.target.value.trim();
       word.wordDefinitions[defindex].definitions.examples[exindex] =
-        exs[0] + "@dhcongminh@" + exs[1];
+        exs[0].trim() + "@dhcongminh@" + exs[1].trim();
     } else {
       word.wordDefinitions[defindex].definitions.examples[exindex] +=
-        "@dhcongminh@" + exs[1];
+        "@dhcongminh@" + exs[1].trim();
+    }
+  }
+
+  function handleAudioStart() {
+    if (wordText.trim() !== "") {
+      setIsLoading(true);
+      const utterance = new SpeechSynthesisUtterance(wordText);
+      window.speechSynthesis.speak(utterance);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2300);
+    } else {
+      Swal.fire({
+        icon: "warning",
+        title: "Lỗi nhập liệu",
+        text: "Vui lòng điền từ tiếng anh trước khi nghe thử.",
+      });
     }
   }
   return (
     <Box sx={{ mt: 3, position: "relative" }}>
-      <button onClick={(e) => handleSubmit(e)} className="btn btn-primary position-absolute " style={{right: 0}}>
+      <button
+        onClick={(e) => handleSubmit(e)}
+        className="btn btn-primary position-absolute "
+        style={{ right: 0 }}
+      >
         Lưu
       </button>
       <Button
         onClick={() => setCurrentPage(0)}
         sx={{ position: "absolute", right: 60 }}
         variant="outlined"
+        color="warning"
       >
         Quay lại
       </Button>
       <div className="d-flex gap-3 align-content-center">
-        <Typography variant="h5">
-          {action} từ vựng{" "}
-          {grossaryDetail && <Chip label={grossaryDetail.wordText} />}
-        </Typography>
+        <Typography variant="h5">{action} từ vựng</Typography>
         {Authentication.isAdmin() && (
           <>
             <span className="text-secondary fw-bold">Add by</span>{" "}
@@ -364,13 +420,23 @@ const GrossaryForm = ({
                     <label htmlFor="englishWord" className="form-label">
                       Từ tiếng anh <span className="text-danger">*</span>
                     </label>
+                    <Box
+                      title="Nghe thử"
+                      display={"inline"}
+                      onClick={handleAudioStart}
+                    >
+                      <VolumeUpIcon
+                        color="primary"
+                        sx={{ ":hover": { cursor: "pointer" } }}
+                      />
+                    </Box>
                     <input
                       type="text"
                       className="form-control"
                       id="englishWord"
                       value={wordText}
                       onChange={(event) => {
-                        setWordText(event.target.value);
+                        setWordText(event.target.value.trim());
                       }}
                     />
                     <span className="form-message text-danger"></span>
@@ -386,7 +452,9 @@ const GrossaryForm = ({
                       className="form-control"
                       id="phoneticWord"
                       value={phonetic}
-                      onChange={(event) => setPhonetic(event.target.value)}
+                      onChange={(event) =>
+                        setPhonetic(event.target.value)
+                      }
                     />
                     <span className="form-message text-danger"></span>
                   </div>
@@ -439,16 +507,13 @@ const GrossaryForm = ({
                   </label>
                   <select name="antonyms" id="antonyms" multiple>
                     {words &&
-                      words.map((word, index) => (
+                      words.map((w, index) => (
                         <option
-                          selected={
-                            word.antonyms &&
-                            word.antonyms.includes(word.wordText)
-                          }
+                          selected={word.antonyms.includes(w.wordText)}
                           key={index}
-                          value={word.wordText}
+                          value={w.wordText}
                         >
-                          {word.wordText}
+                          {w.wordText}
                         </option>
                       ))}
                   </select>
@@ -462,16 +527,13 @@ const GrossaryForm = ({
                   </label>
                   <select name="synonyms" id="synonyms" multiple>
                     {words &&
-                      words.map((word, index) => (
+                      words.map((w, index) => (
                         <option
-                          selected={
-                            word.synonyms &&
-                            word.synonyms.includes(word.wordText)
-                          }
+                          selected={word.synonyms.includes(w.wordText)}
                           key={index}
-                          value={word.wordText}
+                          value={w.wordText}
                         >
-                          {word.wordText}
+                          {w.wordText}
                         </option>
                       ))}
                   </select>

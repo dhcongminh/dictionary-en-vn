@@ -6,6 +6,7 @@ Authentication.clearLocalStorage = () => {
   localStorage.removeItem("role");
   localStorage.removeItem("expireDate");
   localStorage.removeItem("userId");
+  localStorage.removeItem("userEmail");
 }
 
 Authentication.isValid = () => {
@@ -15,7 +16,8 @@ Authentication.isValid = () => {
     !localStorage.getItem("username") ||
     !localStorage.getItem("role") ||
     !localStorage.getItem("expireDate") ||
-    !localStorage.getItem("userId")    
+    !localStorage.getItem("userId") ||
+    !localStorage.getItem("userEmail")    
   ) {
     Authentication.clearLocalStorage();
     isValid = false;
@@ -40,6 +42,9 @@ Authentication.username = () => {
 }
 Authentication.userId = () => {
   return localStorage.getItem("userId");
+}
+Authentication.userEmail = () => {
+  return localStorage.getItem("userEmail");
 }
 
 export default Authentication;

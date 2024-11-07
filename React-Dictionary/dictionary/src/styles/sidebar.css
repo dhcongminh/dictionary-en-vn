@@ -1,0 +1,71 @@
+.boxchat.show {
+    transform: scale(1);
+}
+
+.overlay {
+    position: absolute;
+    right: 0;
+    width: 100vw;
+    background-color: rgb(185, 185, 185, .6);
+    height: 100vh;
+    z-index: 10;
+    display: none;
+}
+
+.overlay.show {
+    position: absolute;
+    right: 0;
+    width: 100vw;
+    background-color: rgb(185, 185, 185, .6);
+    height: 100vh;
+    z-index: 10;
+    display: block;
+}
+
+.sidebar {
+    background-color: #fff;
+    position: absolute;
+    height: 100vh;
+    width: 23rem;
+    font-family: "Andada Pro", serif;
+    font-size: large;
+    z-index: 10;
+    padding-top: 10rem;
+    transition: .5s all;
+    box-shadow: 4px 0px 10px gray;
+    transform: translateX(-100%);
+
+    ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        color: gray;
+        background-color: #fff;
+        padding: 0 1rem;
+
+        li {
+            cursor: pointer;
+            padding: 1rem;
+            border-radius: 1rem;
+            width: 100%;
+            transition: .5s all;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        li.active {
+            background-color: aliceblue;
+        }
+
+        li:hover {
+            background-color: aliceblue;
+        }
+
+    }
+
+}
+
+.sidebar.show {
+    transform: translateX(0);
+}

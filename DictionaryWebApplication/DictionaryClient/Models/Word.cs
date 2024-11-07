@@ -11,6 +11,7 @@ namespace DictionaryClient.Models
             Antonyms = new HashSet<Word>();
             Synonyms = new HashSet<Word>();
             Users = new HashSet<User>();
+            WordSets = new HashSet<WordSet>();
             Words = new HashSet<Word>();
             WordsNavigation = new HashSet<Word>();
         }
@@ -28,6 +29,7 @@ namespace DictionaryClient.Models
         public virtual ICollection<Word> Antonyms { get; set; }
         public virtual ICollection<Word> Synonyms { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<WordSet> WordSets { get; set; }
         public virtual ICollection<Word> Words { get; set; }
         public virtual ICollection<Word> WordsNavigation { get; set; }
     }

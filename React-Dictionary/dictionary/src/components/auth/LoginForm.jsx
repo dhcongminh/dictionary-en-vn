@@ -1,17 +1,14 @@
 import {
   Box,
   Button,
-  Checkbox,
+  //Checkbox,
   Container,
-  Divider,
   FormControl,
-  FormControlLabel,
+  //FormControlLabel,
   Typography,
   Card,
   TextField,
 } from "@mui/material";
-import GoogleIcon from "@mui/icons-material/Google";
-import FacebookIcon from "@mui/icons-material/Facebook";
 import React, { useEffect, useState } from "react";
 import DataContainer from "../../api/DictionaryApiCall";
 import Authentication from "../../others/Authentication";
@@ -40,9 +37,9 @@ const LoginForm = ({ setIsLoading }) => {
     event.preventDefault();
     if (validateInputs()) {
       const data = new FormData(event.currentTarget);
-      if (data.get("isRemember")) {
-        //remember here
-      }
+      // if (data.get("isRemember")) {
+      //   //remember here
+      // }
       const dataLogin = {
         usernameOrEmail: data.get("emailOrUsername"),
         password: data.get("password"),
@@ -87,6 +84,7 @@ const LoginForm = ({ setIsLoading }) => {
           localStorage.setItem("username", data.user.username);
           localStorage.setItem("role", data.user.role);
           localStorage.setItem("userId", data.user.id);
+          localStorage.setItem("userEmail", data.user.userDetail.email);
           nav("/");
 
           toast.success("Đăng nhập thành công.");
@@ -98,6 +96,7 @@ const LoginForm = ({ setIsLoading }) => {
             toast.warning("Vui lòng đăng nhập trước khi thực hiện.");
           } else {
             toast.error("Có vẻ như kết nối mạng đang trục trặc.");
+            console.log(err);
           }
           setIsLoading(false);
         });
@@ -108,15 +107,17 @@ const LoginForm = ({ setIsLoading }) => {
   };
 
   function handleActivateSent(dataLogin) {
-    DataContainer.SendActivateLink(dataLogin.usernameOrEmail).then((data) => {
-      Swal.fire({
-        icon: "success",
-        title: "Link Activate đã được gửi đến email đăng ký.",
-        confirmButtonText: "Ok",
+    DataContainer.SendActivateLink(dataLogin.usernameOrEmail)
+      .then((data) => {
+        Swal.fire({
+          icon: "success",
+          title: "Link Activate đã được gửi đến email đăng ký.",
+          confirmButtonText: "Ok",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    }).catch(err =>{
-      console.log(err);
-    }) ;
   }
 
   const validateInputs = () => {
@@ -143,6 +144,9 @@ const LoginForm = ({ setIsLoading }) => {
 
     return isValid;
   };
+
+
+
 
   return (
     <Container>
@@ -200,33 +204,14 @@ const LoginForm = ({ setIsLoading }) => {
               helperText={passwordErrorMessage}
             />
           </FormControl>
-          <FormControlLabel
+          {/* <FormControlLabel
             control={<Checkbox value={true} color="primary" />}
             label="Remember me"
             name="isRemember"
             sx={{ mt: 3 }}
-          />
+          /> */}
           <Button type="submit" fullWidth variant="contained">
             Đăng nhập
-          </Button>
-        </Box>
-        <Divider sx={{ mt: 3 }}>hoặc</Divider>
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert("Sign in with Google")}
-            startIcon={<GoogleIcon />}
-          >
-            Đăng nhập bằng Google
-          </Button>
-          <Button
-            fullWidth
-            variant="outlined"
-            onClick={() => alert("Sign in with Facebook")}
-            startIcon={<FacebookIcon />}
-          >
-            đăng nhập bằng facebook
           </Button>
         </Box>
       </Card>

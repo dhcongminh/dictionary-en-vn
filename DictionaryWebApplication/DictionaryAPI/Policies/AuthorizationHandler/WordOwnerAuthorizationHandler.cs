@@ -7,7 +7,8 @@ namespace DictionaryAPI.Policies.AuthorizationHandler {
     public class WordOwnerAuthorizationHandler : AuthorizationHandler<WordOwnerRequirement, WordInputDTO> {
         protected override Task HandleRequirementAsync(
             AuthorizationHandlerContext context, 
-            WordOwnerRequirement requirement, WordInputDTO word) {
+            WordOwnerRequirement requirement, 
+            WordInputDTO word) {
 
             if (context.User == null || word == null) {
                 return Task.CompletedTask;

@@ -1,0 +1,8 @@
+.homeTitle {
+  font-size: 10rem;
+  transition: .5s all;
+}
+
+.homeTitle.isLookingUp {
+  font-size: 3rem;
+}

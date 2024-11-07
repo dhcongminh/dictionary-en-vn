@@ -7,6 +7,7 @@ namespace DictionaryClient.Models
     {
         public User()
         {
+            WordSets = new HashSet<WordSet>();
             WordsNavigation = new HashSet<Word>();
             Words = new HashSet<Word>();
         }
@@ -18,6 +19,7 @@ namespace DictionaryClient.Models
         public bool? IsActive { get; set; }
 
         public virtual UserDetail? UserDetail { get; set; }
+        public virtual ICollection<WordSet> WordSets { get; set; }
         public virtual ICollection<Word> WordsNavigation { get; set; }
 
         public virtual ICollection<Word> Words { get; set; }

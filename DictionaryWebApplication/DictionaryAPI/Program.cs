@@ -13,6 +13,8 @@ using DictionaryAPI.Policies.Requirements;
 using DictionaryAPI.Policies.AuthorizationHandler;
 using Microsoft.AspNetCore.Authorization;
 using DictionaryAPI.Helper.EmailSender;
+using DictionaryAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
@@ -28,6 +30,9 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllers();
+builder.Services.AddDbContext<Dictionary_en_vnContext>(options => {
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "DictionaryAPI", Version = "v1" });
@@ -58,6 +63,9 @@ builder.Services.AddSwaggerGen(c => {
                 }
             });
 });
+
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
         options.TokenValidationParameters = new TokenValidationParameters {
@@ -81,6 +89,11 @@ builder.Services.AddAuthorization(
     });
 builder.Services.AddSingleton<IAuthorizationHandler, WordOwnerAuthorizationHandler>();
 builder.Services.AddSingleton<IAuthorizationHandler, WordListViewOwnerAuthorizationHandler>();
+
+
+
+
+
 builder.Services.AddScoped<IAuthRepo, AuthRepo>();
 builder.Services.AddScoped<IUserRepo, UserRepo>();
 builder.Services.AddScoped<IWordRepo, WordRepo>();

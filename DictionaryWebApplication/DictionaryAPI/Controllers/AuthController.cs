@@ -3,6 +3,7 @@ using DictionaryAPI.Helper.EmailSender;
 using DictionaryAPI.Models;
 using DictionaryAPI.Services;
 using DictionaryAPI.Services.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -34,8 +35,24 @@ namespace DictionaryAPI.Controllers {
                 var confirmationLink = Url.Action("ConfirmEmail", "Auth",
                                     new { userId = result.User.Id },
                                     protocol: HttpContext.Request.Scheme);
-                //await SendActivationEmail(userRegisting.Email, confirmationLink);
+                await SendActivationEmail(userRegisting.Email, confirmationLink);
                 return Ok(confirmationLink);
+            } else {
+                return BadRequest();
+            }
+        }
+
+        [Authorize]
+        [HttpPost("password-change")]
+        public IActionResult ChangePassword(string username, string newPassword) {
+            if (ModelState.IsValid) {
+                User? user = _context.Users.FirstOrDefault(x => x.Username == username);
+                if (user != null) {
+                    user.Password = newPassword;
+                    _context.Users.Update(user);    
+                    _context.SaveChanges();
+                }
+                return Ok(user);
             } else {
                 return BadRequest();
             }
@@ -79,7 +96,7 @@ namespace DictionaryAPI.Controllers {
             var confirmationLink = Url.Action("ConfirmEmail", "Auth",
                                     new { userId = user.Id },
                                     protocol: HttpContext.Request.Scheme);
-            //await SendActivationEmail(userRegisting.Email, confirmationLink);
+            await SendActivationEmail(user.UserDetail.Email, confirmationLink);
             return Ok("Vui lòng kiểm tra email để kích hoạt tài khoản." + confirmationLink);
         }
     }

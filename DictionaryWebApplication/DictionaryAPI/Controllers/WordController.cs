@@ -49,6 +49,28 @@ namespace DictionaryAPI.Controllers {
             return Ok(dto);
         }
 
+        [HttpGet("en-vi/{search}")]
+        public IActionResult LookUp(string search) {
+
+            dynamic? dto = _service.LookUp(search);
+            if (dto == null)
+                return NoContent();
+            return Ok(new {
+                dto.Id,
+                dto.WordText,
+                dto.ShortDefinition,
+                dto.Phonetic,
+                dto.AddByUser,
+                dto.Status,
+                dto.UserAdded,
+                dto.Antonyms,
+                dto.Synonyms,
+                dto.WordDefinitions,
+                dto.heartsCount
+
+            });
+        }
+
         [Authorize]
         [HttpGet("u/{uid}")]
         public async Task<IActionResult> GetWordsByAddedUser(int uid) {

@@ -52,6 +52,7 @@ namespace DictionaryAPI.Repositories.Implementation {
 
         public Word? GetWordByWordText(string word_text) {
             return _context.Words
+                .Include(x => x.Users)
                 .Include(x => x.WordDefinitions)
                     .ThenInclude(d => d.Type)
                     .ThenInclude(d => d.WordDefinitions)

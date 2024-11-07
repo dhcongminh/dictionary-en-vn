@@ -8,6 +8,8 @@ namespace DictionaryAPI.Policies.AuthorizationHandler {
             AuthorizationHandlerContext context, 
             WordListViewOwnerRequirement requirement, 
             int uid) {
+
+
             if (context.User == null || uid == 0) {
                 return Task.CompletedTask;
             }

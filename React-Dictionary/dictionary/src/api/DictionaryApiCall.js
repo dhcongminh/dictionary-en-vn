@@ -1,4 +1,5 @@
 import axios from "axios";
+import Authentication from "../others/Authentication";
 
 const DataContainer = {};
 
@@ -7,6 +8,14 @@ const BaseAddress = "https://localhost:7268/api/v1";
 DataContainer.getGrossaryByEnglishWord = async (text) => {
   try {
     const res = await axios.get(BaseAddress + "/word/en/" + text);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+DataContainer.lookup = async (text) => {
+  try {
+    const res = await axios.get(BaseAddress + "/word/en-vi/" + text);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -26,6 +35,97 @@ DataContainer.getAllWord = async () => {
     return res;
   } catch (err) {
     console.log(err);
+  }
+}
+DataContainer.changeUserPassword = async (username, newPassword) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = axios.post(BaseAddress + `/Auth/password-change?username=${username}&newPassword=${newPassword}`, null, config);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.getAllSet = async () => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.get(BaseAddress + `/user/wordset?username=${Authentication.username()}`, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.getSet = async (setId) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.get(BaseAddress + `/user/get-set?username=${Authentication.username()}&setId=${setId}`, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.deleteSet = async (setId) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.delete(BaseAddress + `/user/delete-set?username=${Authentication.username()}&setId=${setId}`, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.createNewSet =  async (nameOfSet) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.post(BaseAddress + `/user/create-new-set?username=${Authentication.username()}&setsName=${encodeURIComponent(nameOfSet)}`, null, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.addListWordToSet =  async (setId, wordList) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.post(BaseAddress + `/user/set-word-list-to-set/${setId}`, wordList, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+DataContainer.updateSet =  async (setId, wordList, setName) => {
+  try {
+    let config = {
+      headers: {
+        "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
+      }
+    }
+    const res = await axios.put(BaseAddress + `/user/update-set/${setId}?setName=${setName}&username=${Authentication.username()}`, wordList, config);
+    return res.data;
+  } catch (error) {
+    console.log(error);
   }
 }
 

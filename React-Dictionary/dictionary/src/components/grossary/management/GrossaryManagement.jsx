@@ -12,14 +12,18 @@ import {
 } from "@mui/material";
 import DataContainer from "../../../api/DictionaryApiCall";
 import Authentication from "../../../others/Authentication";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import GrossaryView from "./GrossaryView";
 import GrossaryForm from "./GrossaryForm";
 import { toast } from "react-toastify";
 
 const GrossaryManagement = ({ setIsLoading }) => {
   const nav = useNavigate();
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const act = queryParams.get('act');
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [currentPage, setCurrentPage] = useState(0);
   const [grossaryDetail, setGrossaryDetail] = useState(null);
   const [action, setAction] = useState("");
@@ -36,10 +40,18 @@ const GrossaryManagement = ({ setIsLoading }) => {
       window.location.reload();
     }
     setIsLoading(false);
+    if (act && act === "add") {
+      setAction("Thêm");
+      setCurrentPage(2);
+    }
     fetchAllWord();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const fetchAllWord = () => {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     DataContainer.getGrossariesByUserAdded(Authentication.userId())
       .then((res) => {
         setDatas([...res.data]);
@@ -55,34 +67,45 @@ const GrossaryManagement = ({ setIsLoading }) => {
       });
   };
   useEffect(() => {
-    setIsLoading(true);
-    DataContainer.getGrossariesByUserAdded(Authentication.userId())
-      .then((res) => {
-        setDatas(
-          res.data.filter(
-            (data) =>
-              data.status.startsWith(status) &&
-              data.wordText.startsWith(word) &&
-              data.shortDefinition.startsWith(shortDef)
-          )
-        );
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        if (err.status === 401) {
-          nav("/");
-          toast.info("Vui lòng đăng nhập để thực hiện.");
-        } else if (err.name === "AxiosError") {
-          nav("/");
-          toast.error("Lỗi mạng.");
-        }
-        setIsLoading(false);
-      });
-
+    var timer = setTimeout(() => {
+      setIsLoading(true);
+      if (!Authentication.isValid()) {
+        nav("/");
+        window.location.reload();
+      }
+      DataContainer.getGrossariesByUserAdded(Authentication.userId())
+        .then((res) => {
+          setDatas(
+            res.data.filter(
+              (data) =>
+                data.status.toLowerCase().startsWith(status.toLowerCase()) &&
+                data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
+                data.shortDefinition
+                  .toLowerCase()
+                  .includes(shortDef.toLowerCase())
+            )
+          );
+        })
+        .catch((err) => {
+          if (err.status === 401) {
+            nav("/");
+            toast.info("Vui lòng đăng nhập để thực hiện.");
+          } else if (err.name === "AxiosError") {
+            nav("/");
+            toast.error("Lỗi mạng.");
+          }
+        }).finally(() => 
+          setIsLoading(false));
+    }, 1000);
+    return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [word, shortDef, status]);
 
   function handleChange(e) {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     const { name, checked } = e.target;
     if (checked) {
       setOrderBy([...orderBy, name]);
@@ -91,6 +114,10 @@ const GrossaryManagement = ({ setIsLoading }) => {
     }
   }
   function handleOrder() {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     if (orderBy && orderBy.length > 0) {
       DataContainer.getGrossariesByUserAdded(Authentication.userId())
         .then((res) => {
@@ -99,9 +126,15 @@ const GrossaryManagement = ({ setIsLoading }) => {
               res.data
                 .filter(
                   (data) =>
-                    data.status.startsWith(status) &&
-                    data.wordText.startsWith(word) &&
-                    data.shortDefinition.startsWith(shortDef)
+                    data.status
+                      .toLowerCase()
+                      .startsWith(status.toLowerCase()) &&
+                    data.wordText
+                      .toLowerCase()
+                      .startsWith(word.toLowerCase()) &&
+                    data.shortDefinition
+                      .toLowerCase()
+                      .includes(shortDef.toLowerCase())
                 )
                 .sort((a, b) => {
                   // Sắp xếp theo status
@@ -119,9 +152,15 @@ const GrossaryManagement = ({ setIsLoading }) => {
               res.data
                 .filter(
                   (data) =>
-                    data.status.startsWith(status) &&
-                    data.wordText.startsWith(word) &&
-                    data.shortDefinition.startsWith(shortDef)
+                    data.status
+                      .toLowerCase()
+                      .startsWith(status.toLowerCase()) &&
+                    data.wordText
+                      .toLowerCase()
+                      .startsWith(word.toLowerCase()) &&
+                    data.shortDefinition
+                      .toLowerCase()
+                      .includes(shortDef.toLowerCase())
                 )
                 .sort((a, b) => {
                   // Sắp xếp theo status
@@ -147,9 +186,11 @@ const GrossaryManagement = ({ setIsLoading }) => {
           setDatas(
             res.data.filter(
               (data) =>
-                data.status.startsWith(status) &&
-                data.wordText.startsWith(word) &&
-                data.shortDefinition.startsWith(shortDef)
+                data.status.toLowerCase().startsWith(status.toLowerCase()) &&
+                data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
+                data.shortDefinition
+                  .toLowerCase()
+                  .includes(shortDef.toLowerCase())
             )
           );
         })
@@ -167,6 +208,10 @@ const GrossaryManagement = ({ setIsLoading }) => {
   }
 
   function handleAddWord() {
+    if (!Authentication.isValid()) {
+      nav("/");
+      window.location.reload();
+    }
     setCurrentPage(2);
     setAction("Thêm");
     setGrossaryDetail(null);
@@ -221,17 +266,32 @@ const GrossaryManagement = ({ setIsLoading }) => {
             <Box sx={{ mt: 1 }}>
               <FormControlLabel
                 sx={{ borderRight: 1, pr: 1 }}
-                control={<Checkbox onChange={handleChange} name="word" />}
+                control={
+                  <Checkbox
+                    onChange={(event) => handleChange(event)}
+                    name="word"
+                  />
+                }
                 label="Từ tiếng anh"
               />
               <FormControlLabel
-                sx={{ borderRight: 1, pr: 1 }}
-                control={<Checkbox onChange={handleChange} name="def" />}
+                sx={{ borderRight: 1, pr: 1, display: "none" }}
+                control={
+                  <Checkbox
+                    onChange={(event) => handleChange(event)}
+                    name="def"
+                  />
+                }
                 label="Dịch nhanh"
               />
               <FormControlLabel
-                sx={{ borderRight: 1, pr: 1 }}
-                control={<Checkbox onChange={handleChange} name="stat" />}
+                sx={{ borderRight: 1, pr: 1, display: "none" }}
+                control={
+                  <Checkbox
+                    onChange={(event) => handleChange(event)}
+                    name="stat"
+                  />
+                }
                 label="Trạng thái"
               />
               <Button onClick={handleOrder}>Sắp xếp {order}</Button>
@@ -245,6 +305,10 @@ const GrossaryManagement = ({ setIsLoading }) => {
             <>Loading...</>
           ) : (
             <GrossaryList
+              page={page}
+              setPage={setPage}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
               grossaryList={datas}
               setCurrentPage={setCurrentPage}
               setGrossaryDetail={setGrossaryDetail}

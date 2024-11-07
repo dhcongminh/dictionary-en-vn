@@ -164,6 +164,54 @@ namespace DictionaryAPI.Services.Implementation {
 
             return dto;
         }
+        public dynamic? WordToLookupDto(Word? word) {
+            if (word == null)
+                return null;
+            WordInDetailDTO dto = new WordInDetailDTO {
+                Id = word.Id,
+                WordText = word.WordText.Trim(),
+                Phonetic = word.Phonetic.Trim(),
+                AddByUser = word.AddByUser,
+                Status = word.Status.Trim(),
+                ShortDefinition = word.ShortDefinition.Trim(),
+                UserAdded = word.AddByUserNavigation,
+            };
+
+            if (word.Antonyms != null && word.Antonyms.Count > 0) {
+                foreach (var antonym in word.Antonyms) {
+                    if (antonym.Status != "active")
+                        continue;
+                    dto.Antonyms.Add(antonym.WordText);
+                }
+            }
+
+            if (word.Synonyms != null && word.Synonyms.Count > 0) {
+                foreach (var synonym in word.Synonyms) {
+                    if (synonym.Status != "active") continue;
+                    dto.Synonyms.Add(synonym.WordText);
+                }
+            }
+
+            if (word.WordDefinitions != null && word.WordDefinitions.Count > 0) {
+                foreach (var definition in word.WordDefinitions) {
+                    dto.WordDefinitions.Add(WordDefinitionToWordDefinitionDto(definition));
+                }
+            }
+
+            return new {
+                    dto.Id,
+                    dto.WordText,
+                    dto.ShortDefinition,
+                    dto.Phonetic,
+                    dto.AddByUser,
+                    dto.Status,
+                    dto.UserAdded,
+                    dto.Antonyms,
+                    dto.Synonyms,
+                    dto.WordDefinitions,
+                    heartsCount = word.Users.Count // Thêm thuộc tính heartsCount vào trong dto
+                };
+        }
 
         public WordInputDTO WordToInputDto(Word word) {
             WordInputDTO dto = new WordInputDTO {

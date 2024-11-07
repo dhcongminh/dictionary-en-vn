@@ -12,5 +12,6 @@ namespace DictionaryAPI.Services {
         public string Insert(WordInputDTO word);
         public string Update(int id, WordInputDTO word);
         WordInDetailDTO? GetByText(string search);
+        dynamic? LookUp(string search);
     }
 }

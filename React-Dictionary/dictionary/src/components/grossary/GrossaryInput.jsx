@@ -41,7 +41,7 @@ const GrossaryInput = ({ setIsLoading }) => {
   function fetchWordDefinition() {
     if (grossaryText) {
       setIsLoading(true);
-      DataContainer.getGrossaryByEnglishWord(grossaryText)
+      DataContainer.lookup(grossaryText)
         .then((data) => {
           if (data === undefined) {
             toast.error("Lỗi mạng!");
@@ -67,10 +67,12 @@ const GrossaryInput = ({ setIsLoading }) => {
     <Container sx={{ mt: 5 }}>
       <Typography
         variant="h1"
+        className={grossaryText ? "homeTitle isLookingUp" : "homeTitle"}
         sx={{
           fontFamily: "Montserrat",
           textAlign: "center",
           textTransform: "uppercase",
+          fontWeight: "100",
         }}
       >
         {grossaryText ? grossaryText : "DICTIONARY"}
@@ -84,13 +86,13 @@ const GrossaryInput = ({ setIsLoading }) => {
             <InputLabel htmlFor="grossary">Tra từ</InputLabel>
             <Input
               value={grossaryText}
-              onChange={(event) => setGrossaryText(event.target.value)}
+              onChange={(event) => setGrossaryText(event.target.value.trim())}
               id="grossary"
             />
           </FormControl>
         </Box>
       </Box>
-      {!grossaryData ? "" : <GrossaryDetail grossaryData={grossaryData} />}
+      {!grossaryData ? "" : <GrossaryDetail grossaryData={grossaryData} setIsLoading={setIsLoading} />}
     </Container>
   );
 };
