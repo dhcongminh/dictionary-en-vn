@@ -8,6 +8,7 @@ namespace DictionaryAPI.DTOs.WordDto {
         public string? Phonetic { get; set; }
         public int? AddByUser { get; set; }
         public string? Status { get; set; }
+        public string LastTimeUpdate {  get; set; }
         public virtual ICollection<WordDefinitionDTO> WordDefinitions { get; set; }
         public virtual ICollection<string> Antonyms { get; set; }
         public virtual ICollection<string> Synonyms { get; set; }

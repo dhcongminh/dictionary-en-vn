@@ -22,6 +22,7 @@ namespace DictionaryAPI.Models
         public string? ShortDefinition { get; set; }
         public string? Phonetic { get; set; }
         public int? AddByUser { get; set; }
+        public string? LastTimeUpdate { get; set; }
         public string? Status { get; set; }
         [JsonIgnore]
         public virtual User? AddByUserNavigation { get; set; }

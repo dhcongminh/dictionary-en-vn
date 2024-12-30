@@ -16,7 +16,8 @@ import DataContainer from "../../api/DictionaryApiCall";
 import GrossaryView from "../grossary/management/GrossaryView";
 import GrossaryForm from "../grossary/management/GrossaryForm";
 import GrossaryList from "../grossary/management/GrossaryList";
-// import * as XLSX from "xlsx";
+import * as XLSX from "xlsx";
+import Swal from "sweetalert2";
 
 const GrossaryManagement = ({ setIsLoading }) => {
   const nav = useNavigate();
@@ -48,8 +49,8 @@ const GrossaryManagement = ({ setIsLoading }) => {
       window.location.reload();
     }
     DataContainer.getAllWord()
-      .then((res) => {
-        setDatas([...res.data]);
+      .then((data) => {
+        setDatas([...data]);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -69,9 +70,9 @@ const GrossaryManagement = ({ setIsLoading }) => {
         window.location.reload();
       }
       DataContainer.getAllWord()
-        .then((res) => {
+        .then((data) => {
           setDatas(
-            res.data.filter(
+            data.filter(
               (data) =>
                 data.status.toLowerCase().startsWith(status.toLowerCase()) &&
                 data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
@@ -115,10 +116,10 @@ const GrossaryManagement = ({ setIsLoading }) => {
     }
     if (orderBy && orderBy.length > 0) {
       DataContainer.getAllWord()
-        .then((res) => {
+        .then((data) => {
           if (order === "giảm dần") {
             setDatas(
-              res.data
+              data
                 .filter(
                   (data) =>
                     data.status
@@ -144,7 +145,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
             );
           } else {
             setDatas(
-              res.data
+              data
                 .filter(
                   (data) =>
                     data.status
@@ -177,9 +178,9 @@ const GrossaryManagement = ({ setIsLoading }) => {
         });
     } else {
       DataContainer.getAllWord()
-        .then((res) => {
+        .then((data) => {
           setDatas(
-            res.data.filter(
+            data.filter(
               (data) =>
                 data.status.toLowerCase().startsWith(status.toLowerCase()) &&
                 data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
@@ -212,82 +213,178 @@ const GrossaryManagement = ({ setIsLoading }) => {
     setGrossaryDetail(null);
   }
 
-  // const exportExcelTemplate = () => {
-  //   const headers = [
-  //     { header: "english", key: "english" },
-  //     { header: "type", key: "type" },
-  //     { header: "phonetic", key: "phonetic" },
-  //     { header: "definition", key: "definition" },
-  //     { header: "example", key: "example" },
-  //   ];
-  //   const ws = XLSX.utils.json_to_sheet([{}], {
-  //     header: headers.map((h) => h.key),
-  //   });
+  const exportExcelTemplate = () => {
+    const headers = [
+      { header: "english", key: "english" },
+      { header: "type", key: "type" },
+      { header: "phonetic", key: "phonetic" },
+      { header: "definition", key: "definition" },
+      { header: "example", key: "example" },
+    ];
+    const ws = XLSX.utils.json_to_sheet([{}], {
+      header: headers.map((h) => h.key),
+    });
 
-  //   // Vô hiệu hóa các ô thừa
-  //   const range = XLSX.utils.decode_range(ws["!ref"]);
-  //   for (let R = range.s.r; R <= range.e.r; ++R) {
-  //     for (let C = range.s.c; C <= range.e.c; ++C) {
-  //       const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
-  //       if (cell) {
-  //         cell.s = { ...cell.s, bgColor: { rgb: "CCCCCC" }, lock: true }; // Màu nền để hiện ô thừa
-  //       }
-  //     }
-  //   }
+    // Vô hiệu hóa các ô thừa
+    const range = XLSX.utils.decode_range(ws["!ref"]);
+    for (let R = range.s.r; R <= range.e.r; ++R) {
+      for (let C = range.s.c; C <= range.e.c; ++C) {
+        const cell = ws[XLSX.utils.encode_cell({ r: R, c: C })];
+        if (cell) {
+          cell.s = { ...cell.s, bgColor: { rgb: "CCCCCC" }, lock: true };
+        }
+      }
+    }
 
-  //   const wb = XLSX.utils.book_new();
-  //   XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
-  //   XLSX.writeFile(wb, "data.xlsx");
-  // };
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const reader = new FileReader();
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Sheet1");
+    XLSX.writeFile(wb, "data.xlsx");
+  };
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-  //   reader.onload = (e) => {
-  //     const binaryStr = e.target.result;
-  //     const workbook = XLSX.read(binaryStr, { type: "binary" });
-  //     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-  //     const jsonData = XLSX.utils.sheet_to_json(worksheet);
-  //     console.log(jsonData);
-  //   };
+    reader.onload = (e) => {
+      const binaryStr = e.target.result;
+      const workbook = XLSX.read(binaryStr, { type: "binary" });
+      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet);
+      console.log(jsonData);
+      if (!jsonData) {
+        Swal.fire({
+          icon: "error",
+          title: "That bai",
+          text: "Vui long nhap du lieu",
+        });
+      }
+      var wordExcel;
+      var successRows = [];
+      var failRows = [];
+      setIsLoading(true);
 
-  //   if (file) {
-  //     reader.readAsBinaryString(file);
-  //   }
-  // };
-  // const handleInsertBtnClick = () => {
-  //   document.querySelector("#excel-input").value = "";
-  //   document.querySelector("#excel-input").click();
-  // }
+      var types = [
+        "Động từ",
+        "Danh từ",
+        "Tính từ",
+        "Trạng từ",
+        "Đại từ",
+        "Từ hạn định",
+        "Thán từ",
+        "Liên từ",
+        "Giới từ",
+      ];
+      Promise.all(
+        jsonData.map((w, i) => {
+          var isValid = true;
+          wordExcel = {
+            wordText: w.english,
+            shortDefinition: w.definition,
+            phonetic: w.phonetic,
+            addByUser: 1,
+            status: "active",
+            wordDefinitions: [
+              {
+                type: types.includes(w.type) ? w.type : "",
+                definitions: {
+                  detail: w.definition,
+                  examples: [w.example ? w.example : ""],
+                },
+              },
+            ],
+            antonyms: [],
+            synonyms: [],
+            lastTimeUpdate: new Date().toLocaleString(),
+          };
+          if (
+            !wordExcel.wordDefinitions.type ||
+            !wordExcel.wordText ||
+            !wordExcel.shortDefinition ||
+            !wordExcel.phonetic ||
+            !wordExcel.wordDefinitions.definitions.detail
+          ) {
+            isValid = false;
+          }
+          console.log(wordExcel);
+          console.log(isValid)
+          if (!isValid) {
+              failRows.push(i + 2);
+              return () => {
+                
+              }
+          } else {
+            return DataContainer.AddWord(wordExcel)
+              .then((data) => {
+                if (data) {
+                  if (data === "word exist") {
+                    failRows.push(i + 2);
+                  } else {
+                    successRows.push(i + 2);
+                  }
+                } else {
+                  failRows.push(i + 2);
+                }
+              })
+              .catch((err) => {
+                console.error(err);
+                failRows.push(i + 2);
+              });
+          }
+        })
+      )
+        .then(() => {
+          Swal.fire({
+            icon: "info",
+            title: "Tải file thành công!",
+            html: failRows.length
+              ? `Các dòng lỗi: ${failRows.join(", ")}`
+              : "Tất cả dữ liệu được thêm thành công!",
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
+          fetchAllWord();
+        });
+    };
+
+    if (file) {
+      reader.readAsBinaryString(file);
+    }
+  };
+  const handleInsertBtnClick = () => {
+    document.querySelector("#excel-input").value = "";
+    document.querySelector("#excel-input").click();
+  };
 
   return (
     <Container sx={{ mt: 5 }}>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Typography variant="h3">Tất cả từ vựng</Typography>
-        {/* <Box>
-          <Button
-            sx={{ mr: 1 }}
-            onClick={exportExcelTemplate}
-            variant="outlined"
-            color="success"
-          >
-            Lấy mẫu Excel
-          </Button>
-          <Button
-            onClick={handleInsertBtnClick}
-            variant="contained"
-            color="success"
-          >
-            Nhập Excel
-          </Button>
-          <input
-            hidden
-            type="file"
-            id="excel-input"
-            accept=".xlsx, .xls"
-            onChange={handleFileChange}
-          />
-        </Box> */}
+        {
+          <Box>
+            <Button
+              sx={{ mr: 1 }}
+              onClick={exportExcelTemplate}
+              variant="outlined"
+              color="success"
+            >
+              Lấy mẫu Excel
+            </Button>
+            <Button
+              onClick={handleInsertBtnClick}
+              variant="contained"
+              color="success"
+            >
+              Nhập Excel
+            </Button>
+            <input
+              hidden
+              type="file"
+              id="excel-input"
+              accept=".xlsx, .xls"
+              onChange={handleFileChange}
+            />
+          </Box>
+        }
       </Box>
       {(currentPage === 0 && (
         <Box sx={{ mt: 3 }}>
@@ -332,7 +429,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ mt: 1 }}>
               <FormControlLabel
-                sx={{ borderRight: 1, pr: 1 }}
+                sx={{ borderRight: 1, pr: 1, display: "none" }}
                 control={
                   <Checkbox
                     onChange={(event) => handleChange(event)}
@@ -361,7 +458,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
                 }
                 label="Trạng thái"
               />
-              <Button onClick={handleOrder}>Sắp xếp {order}</Button>
+              {/* <Button onClick={handleOrder}>Sắp xếp {order}</Button> */}
             </Box>
             <Button onClick={handleAddWord} variant="contained">
               Thêm từ mới

@@ -10,7 +10,7 @@ namespace DictionaryAPI.Repositories {
         public List<Word> GetWordsStartWith(string text);
         public List<Word> GetWordsByAddedUser(int uid);
         public Word? GetWordById(int id);
-        public Word? GetWordByWordText(string word_text);
+        public Word? GetWordByWordText(string word_text, string username);
         public Example GetWordExampleByText(string text);
         public Models.Type GetTypeByText(string text);
 

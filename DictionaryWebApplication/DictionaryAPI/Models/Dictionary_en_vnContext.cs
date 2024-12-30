@@ -105,6 +105,11 @@ namespace DictionaryAPI.Models
 
                 entity.HasIndex(e => e.Id, "IDX_WordText");
 
+                entity.Property(e => e.LastTimeUpdate)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+
                 entity.HasIndex(e => e.WordText, "UQ__Word__918B59BDEC647AB8")
                     .IsUnique();
 

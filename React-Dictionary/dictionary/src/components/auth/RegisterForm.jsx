@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import Authentication from "../../others/Authentication";
 import DataContainer from "../../api/DictionaryApiCall";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const RegisterForm = ({ setIsLoading }) => {
   const nav = useNavigate();
@@ -52,14 +53,19 @@ const RegisterForm = ({ setIsLoading }) => {
       password: data.get("password"),
     };
     DataContainer.Register(registerUser)
-      .then((res) => {
-        if (res) {
-          if (res.data)
+      .then((data) => {
+        if (data) {
+          if (data.errors.length) {
+            Swal.fire({
+              icon: "error",
+              title: "Có lỗi xảy ra",
+              html: data.errors.join("<br>"),
+            });
+          } else {
             toast.info(
               "Đăng ký thành công. Kiểm tra Email để kích hoạt tài khoản."
             );
-        } else {
-          toast.info("Có vẻ server sập...")
+          }
         }
       })
       .catch((err) => {

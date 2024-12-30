@@ -37,11 +37,12 @@ CREATE TABLE UserDetail (
 
 CREATE TABLE Word (
 	Id INT IDENTITY(1,1) PRIMARY KEY,
-	WordText VARCHAR(100) NOT NULL UNIQUE,
+	WordText VARCHAR(100) NOT NULL,
 	[ShortDefinition] NVARCHAR(MAX),
 	Phonetic NVARCHAR(MAX),
 	AddByUser INT FOREIGN KEY REFERENCES [User](Id),
-	[Status] VARCHAR(10)
+	[Status] VARCHAR(10),
+	LastTimeUpdate VARCHAR(Max),
 )
 
 CREATE TABLE [Type] (
@@ -129,10 +130,10 @@ GO
 CREATE INDEX IDX_AntonymsId
 ON Antonyms_Word (AntonymsId);
 GO
-CREATE INDEX IDX_WordText
+CREATE INDEX IDX_WordId
 ON Word (Id);
 GO
-CREATE INDEX IDX_WordId 
+CREATE INDEX IDX_WordText
 ON Word (WordText);
 GO
 CREATE INDEX IDX_Word_Definition

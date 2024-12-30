@@ -66,14 +66,14 @@ namespace DictionaryAPI.Services.Implementation {
             };
             if (dto.Antonyms != null && dto.Antonyms.Count > 0) {
                 foreach (var antonym in dto.Antonyms) {
-                    Word? search = _wordRepo.GetWordByWordText(antonym);
+                    Word? search = _wordRepo.GetWordByWordText(antonym, "");
                     if (search != null)
                         word.Antonyms.Add(search);
                 }
             }
             if (dto.Synonyms != null && dto.Synonyms.Count > 0) {
                 foreach (var synonym in dto.Synonyms) {
-                    Word? search = _wordRepo.GetWordByWordText(synonym);
+                    Word? search = _wordRepo.GetWordByWordText(synonym, "");
                     if (search != null)
                         word.Synonyms.Add(search);
                 }
@@ -107,16 +107,17 @@ namespace DictionaryAPI.Services.Implementation {
             word.Phonetic = dto.Phonetic.Trim();
             word.AddByUser = dto.AddByUser;
             word.Status = dto.Status.Trim();
+            word.LastTimeUpdate = dto.LastTimeUpdate.Trim();
             if (dto.Antonyms != null && dto.Antonyms.Count > 0) {
                 foreach (var antonym in dto.Antonyms) {
-                    Word? search = _wordRepo.GetWordByWordText(antonym);
+                    Word? search = _wordRepo.GetWordByWordText(antonym, "");
                     if (search != null)
                         word.Antonyms.Add(search);
                 }
             }
             if (dto.Synonyms != null && dto.Synonyms.Count > 0) {
                 foreach (var synonym in dto.Synonyms) {
-                    Word? search = _wordRepo.GetWordByWordText(synonym);
+                    Word? search = _wordRepo.GetWordByWordText(synonym, "");
                     if (search != null)
                         word.Synonyms.Add(search);
                 }
@@ -164,7 +165,7 @@ namespace DictionaryAPI.Services.Implementation {
 
             return dto;
         }
-        public dynamic? WordToLookupDto(Word? word) {
+        public dynamic? WordToLookupDto(Word? word, string username) {
             if (word == null)
                 return null;
             WordInDetailDTO dto = new WordInDetailDTO {
@@ -179,16 +180,39 @@ namespace DictionaryAPI.Services.Implementation {
 
             if (word.Antonyms != null && word.Antonyms.Count > 0) {
                 foreach (var antonym in word.Antonyms) {
-                    if (antonym.Status != "active")
+                    if (antonym.Status == "inactive")
                         continue;
-                    dto.Antonyms.Add(antonym.WordText);
+                    if (username == "") {
+                        if (antonym.Status == "active") {
+                            dto.Antonyms.Add(antonym.WordText);
+                        }
+                    } else {
+                        if (antonym.Status == "active") {
+                            dto.Antonyms.Add(antonym.WordText);
+                        }
+                        if (antonym.Status != "active" && antonym.AddByUserNavigation.Username == username) {
+                            dto.Antonyms.Add(antonym.WordText);
+                        }
+                    }
                 }
             }
 
             if (word.Synonyms != null && word.Synonyms.Count > 0) {
                 foreach (var synonym in word.Synonyms) {
-                    if (synonym.Status != "active") continue;
-                    dto.Synonyms.Add(synonym.WordText);
+                    if (synonym.Status == "inactive")
+                        continue;
+                    if (username == "") {
+                        if (synonym.Status == "active") {
+                            dto.Synonyms.Add(synonym.WordText);
+                        }
+                    } else {
+                        if (synonym.Status == "active") {
+                            dto.Synonyms.Add(synonym.WordText);
+                        }
+                        if (synonym.Status != "active" && synonym.AddByUserNavigation.Username == username) {
+                            dto.Synonyms.Add(synonym.WordText);
+                        }
+                    }
                 }
             }
 
@@ -250,7 +274,8 @@ namespace DictionaryAPI.Services.Implementation {
                 Phonetic = word.Phonetic.Trim(),
                 ShortDefinition = word.ShortDefinition.Trim(),
                 Status = word.Status.Trim(),
-                UserAdded = word.AddByUserNavigation
+                UserAdded = word.AddByUserNavigation,
+                LastTimeUpdate = word.LastTimeUpdate,
             };
 
             return dto;

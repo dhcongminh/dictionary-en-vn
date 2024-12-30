@@ -4,6 +4,8 @@ using DictionaryAPI.Models;
 using DictionaryAPI.Repositories;
 using DictionaryAPI.Repositories.Implementation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Security.Claims;
 
 namespace DictionaryAPI.Services.Implementation {
@@ -11,10 +13,12 @@ namespace DictionaryAPI.Services.Implementation {
         public readonly IWordRepo _repo;
         public readonly IConfiguration _config;
         public readonly IMapper _mapper;
-        public WordService(IWordRepo repo, IConfiguration config, IMapper mapper) {
+        public readonly Dictionary_en_vnContext _context;
+        public WordService(IWordRepo repo, IConfiguration config, IMapper mapper, Dictionary_en_vnContext context) {
             _repo = repo;
             _config = config;
             _mapper = mapper;
+            _context = context;
         }
         public void Activate(int id) {
             throw new NotImplementedException();
@@ -39,7 +43,7 @@ namespace DictionaryAPI.Services.Implementation {
         }
 
         public WordInDetailDTO? GetByText(string search) {
-            return _mapper.WordToDetailDto(_repo.GetWordByWordText(search));
+            return _mapper.WordToDetailDto(_repo.GetWordByWordText(search, ""));
         }
 
         public List<WordInListDTO> GetWordsByAddedUser(int uid) {
@@ -55,18 +59,34 @@ namespace DictionaryAPI.Services.Implementation {
         }
 
         public string Insert(WordInputDTO word) {
-            if (_repo.GetWordByWordText(word.WordText.Trim()) != null) {
+            Word data = _mapper.DtoToWord(word);
+            Word? wordExist = _context.Words
+                .Include(x => x.AddByUserNavigation)
+                .Include(x => x.WordDefinitions)
+                .ThenInclude(x => x.Type)
+                .FirstOrDefault(x => x.WordText.Equals(word.WordText) && x.AddByUserNavigation.Id == word.AddByUser
+                && x.WordDefinitions.ToList().Any(x=>x.Type.Title==word.WordDefinitions.Select(a => a.Type).FirstOrDefault()));
+            if (wordExist != null) {
                 return "word exist";
             }
-            Word data = _mapper.DtoToWord(word);
-            Word? w = _repo.Create(data);
-            if (w != null)
-                return _config["Messages:Successes:ADD_WORD"];
+            Word? checkWord = _context.Words.FirstOrDefault(x => x.WordText == word.WordText);
+            if (checkWord != null) {
+                foreach (var item in word.WordDefinitions)
+                {
+                    checkWord.WordDefinitions.Add(_mapper.WordDefinitionDtoToWordDefinition(item));
+                }
+                _context.Words.Update(checkWord);
+                _context.SaveChanges();
+            } else {
+                Word? w = _repo.Create(data);
+                if (w != null)
+                    return _config["Messages:Successes:ADD_WORD"];
+            }
             return _config["Messages:Errors:ADD_WORD"];
         }
 
-        public dynamic? LookUp(string search) {
-            return _mapper.WordToLookupDto(_repo.GetWordByWordText(search));
+        public dynamic? LookUp(string search, string username) {
+            return _mapper.WordToLookupDto(_repo.GetWordByWordText(search, username), username);
         }
 
         public string Restore(int id) {
@@ -81,7 +101,10 @@ namespace DictionaryAPI.Services.Implementation {
             if (word == null) {
                 return _config["Messages:Errors:WORD_NOT_FOUND"];
             }
-            if (_repo.GetWordByWordText(dto.WordText) != null && dto.WordText != word.WordText) {
+            Word? wordExist = _context.Words
+                .Include(x => x.AddByUserNavigation)
+                .FirstOrDefault(x => !x.WordText.Equals(word.WordText) && x.WordText.Equals(dto.WordText) && x.AddByUserNavigation.Id == dto.AddByUser);
+            if (wordExist != null) {
                 return "word exist";
             }
 
@@ -93,17 +116,18 @@ namespace DictionaryAPI.Services.Implementation {
             word.Antonyms.Clear();
             word.Synonyms.Clear();
             word.WordDefinitions.Clear();
+            word.LastTimeUpdate = dto.LastTimeUpdate;
             _repo.Update(word);
             if (dto.Antonyms != null && dto.Antonyms.Count > 0) {
                 foreach (var antonym in dto.Antonyms) {
-                    Word? search = _repo.GetWordByWordText(antonym);
+                    Word? search = _repo.GetWordByWordText(antonym, "");
                     if (search != null)
                         word.Antonyms.Add(search);
                 }
             }
             if (dto.Synonyms != null && dto.Synonyms.Count > 0) {
                 foreach (var synonym in dto.Synonyms) {
-                    Word? search = _repo.GetWordByWordText(synonym);
+                    Word? search = _repo.GetWordByWordText(synonym, "");
                     if (search != null)
                         word.Synonyms.Add(search);
                 }

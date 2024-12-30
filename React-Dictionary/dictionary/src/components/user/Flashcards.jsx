@@ -4,9 +4,10 @@ import {
   Card,
   CardActions,
   CardContent,
+  Modal,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DataContainer from "../../api/DictionaryApiCall";
 import { toast } from "react-toastify";
@@ -19,6 +20,27 @@ const Flashcards = ({
   fetchWordCollection,
   handleOpenEditForm,
 }) => {
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    pt: 2,
+    px: 4,
+    pb: 3,
+    width: 700,
+    borderRadius: 3
+  };
+  const [open, setOpen] = useState(false);
+  const [front, setFront] = useState("");
+  const [back, setBack] = useState("");
+  const [words, setWords] = useState([]);
+  const [currIndex, setCurrIndex] = useState(0);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [nameOfCollection, setNameOfCollection] = useState("");
   const handleDeleteSet = (setId) => {
     Swal.fire({
       icon: "warning",
@@ -61,11 +83,50 @@ const Flashcards = ({
       }
     });
   };
+  function handleNext() {
+    setIsFlipped(false);
+    if (currIndex < words.length - 1) setCurrIndex(currIndex + 1);
+  }
+  function handlePrev() {
+    setIsFlipped(false);
+    if (currIndex > 0) setCurrIndex(currIndex - 1);
+  }
+  useEffect(() => {
+    if (words.length) {
+      setFront(words[currIndex].wordText);
+      setBack(words[currIndex].shortDefinition);
+    }
+  }, [currIndex, words]);
+  function handleLearnFlashcard(w) {
+    setCurrIndex(0);
+    DataContainer.getSet(w.id).then((data) => {
+      setNameOfCollection(w.nameOfSet);
+      setWords(data.words);
+      setFront(data.words[0].wordText);
+      setBack(data.words[0].shortDefinition);
+    });
+    setOpen(true);
+  }
   return (
     <div className="mt-3">
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <Box sx={{ ...style, height: 600 }}>
+          <Typography align="center" variant="h4">{nameOfCollection}</Typography>
+          <div className="d-flex justify-content-center align-items-center mt-3">
+            <Button onClick={handlePrev} variant="contained" type="submit">
+              Trước
+            </Button>
+            <Flashcard isFlipped={isFlipped} setIsFlipped={setIsFlipped} frontText={front} backText={back} />
+            <Button onClick={handleNext} variant="contained" type="submit">
+              Sau
+            </Button>
+          </div>
+          <Typography align="center" variant="h4">{currIndex + 1}/{words.length}</Typography>
+        </Box>
+      </Modal>
       {wordCollection && wordCollection.length ? (
         wordCollection.map((w) => (
-          <Card sx={{ maxWidth: 275, mb: 3 }}>
+          <Card key={w.id} sx={{ maxWidth: 275, mb: 3 }}>
             <CardContent>
               <Typography variant="h5" component="div">
                 {w.nameOfSet}
@@ -74,7 +135,9 @@ const Flashcards = ({
             <CardActions
               sx={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Button size="small">Học với Flashcard</Button>
+              <Button onClick={() => handleLearnFlashcard(w)} size="small">
+                Học với Flashcard
+              </Button>
               <Box>
                 <DeleteForeverIcon
                   onClick={() => handleDeleteSet(w.id)}
@@ -91,7 +154,6 @@ const Flashcards = ({
       ) : (
         <>Chưa có bộ từ nào!</>
       )}
-      <Flashcard frontText="Front Side Text" backText="Back Side Text" />
     </div>
   );
 };

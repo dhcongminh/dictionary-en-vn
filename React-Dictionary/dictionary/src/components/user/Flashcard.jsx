@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
-const Flashcard = ({ frontText, backText }) => {
-  const [isFlipped, setIsFlipped] = useState(false);
+const Flashcard = ({ frontText, backText, isFlipped, setIsFlipped }) => {
 
   const handleFlip = () => {
     setIsFlipped((prev) => !prev);
@@ -14,9 +13,13 @@ const Flashcard = ({ frontText, backText }) => {
       sx={{
         perspective: "1000px",
         cursor: "pointer",
-        width: "250px",
-        height: "150px",
+        width: "350px",
+        height: "250px",
         margin: "20px auto",
+        transition: ".1s ease-in-out",
+        ":hover": {
+          scale: "1.02",
+        }
       }}
     >
       <Card

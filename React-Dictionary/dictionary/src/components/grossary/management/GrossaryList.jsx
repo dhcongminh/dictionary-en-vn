@@ -38,6 +38,9 @@ const GrossaryList = ({
   setRowsPerPage
 }) => {
   var rows = grossaryList ? [...grossaryList] : [];
+  React.useEffect(() => {
+    console.log(rows)
+  }, []);
   const nav = useNavigate();
 
   // Avoid a layout jump when reaching the last page with empty rows.
@@ -178,6 +181,8 @@ const GrossaryList = ({
             <TableCell>STT</TableCell>
             <TableCell>Từ tiếng anh</TableCell>
             <TableCell>Dịch nhanh</TableCell>
+            <TableCell>Thêm bởi</TableCell>
+            <TableCell>Lần cuối chỉnh sửa</TableCell>
             <TableCell align="center">Trạng thái</TableCell>
             <TableCell align="right"></TableCell>
           </TableRow>
@@ -197,6 +202,12 @@ const GrossaryList = ({
               <TableCell style={{ width: 160 }}>
                 {row.shortDefinition}
               </TableCell>
+              <TableCell style={{ width: 160 }}>
+                {row.userAdded.username}
+              </TableCell>
+              <TableCell style={{ width: 160 }}>
+                {row.lastTimeUpdate}
+              </TableCell>
               <TableCell style={{ width: 160 }} align="center">
                 <Chip
                   label={row.status}
@@ -212,14 +223,15 @@ const GrossaryList = ({
                 />
               </TableCell>
               <TableCell style={{ width: 260 }} align="right">
-                <Button
+                {row.userAdded.username === Authentication.username() && <Button
                   onClick={() => handleEdit(row.id)}
                   sx={{ mr: 1 }}
                   variant="outlined"
                   color="primary"
                 >
                   Sửa
-                </Button>
+                </Button>}
+                
 
                 {Authentication.isAdmin() && (
                   <>

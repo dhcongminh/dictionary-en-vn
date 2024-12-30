@@ -66,7 +66,7 @@ const GrossaryDetail = ({ grossaryData, setIsLoading }) => {
         <Box className="col-9">
           {grossaryData.synonyms &&
             grossaryData.synonyms.map((s) => {
-              return <Chip variant="outlined" color="default" label={s} />;
+              return <Chip variant="outlined" color="default" label={s} />
             })}
         </Box>
       </Box>
@@ -80,7 +80,7 @@ const GrossaryDetail = ({ grossaryData, setIsLoading }) => {
         <Box className="col-9">
           {grossaryData.antonyms &&
             grossaryData.antonyms.map((s) => {
-              return <Chip variant="outlined" color="default" label={s} />;
+              return <Chip variant="outlined" color="default" label={s} /> 
             })}
         </Box>
       </Box>

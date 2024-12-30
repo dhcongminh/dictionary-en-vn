@@ -48,7 +48,7 @@ namespace DictionaryClient.Models
                 entity.HasOne(d => d.Definition)
                     .WithMany(p => p.Examples)
                     .HasForeignKey(d => d.DefinitionId)
-                    .HasConstraintName("FK__Example__Definit__440B1D61");
+                    .HasConstraintName("FK__Example__Definit__4316F928");
             });
 
             modelBuilder.Entity<Type>(entity =>
@@ -76,7 +76,7 @@ namespace DictionaryClient.Models
             modelBuilder.Entity<UserDetail>(entity =>
             {
                 entity.HasKey(e => e.UserId)
-                    .HasName("PK__UserDeta__1788CC4C5CAA6D5C");
+                    .HasName("PK__UserDeta__1788CC4CDC208128");
 
                 entity.ToTable("UserDetail");
 
@@ -101,12 +101,13 @@ namespace DictionaryClient.Models
             {
                 entity.ToTable("Word");
 
-                entity.HasIndex(e => e.WordText, "IDX_WordId");
+                entity.HasIndex(e => e.Id, "IDX_WordId");
 
-                entity.HasIndex(e => e.Id, "IDX_WordText");
+                entity.HasIndex(e => e.WordText, "IDX_WordText");
 
-                entity.HasIndex(e => e.WordText, "UQ__Word__918B59BDEC647AB8")
-                    .IsUnique();
+                entity.Property(e => e.LastTimeUpdate)
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(10)
@@ -119,17 +120,17 @@ namespace DictionaryClient.Models
                 entity.HasOne(d => d.AddByUserNavigation)
                     .WithMany(p => p.WordsNavigation)
                     .HasForeignKey(d => d.AddByUser)
-                    .HasConstraintName("FK__Word__AddByUser__3D5E1FD2");
+                    .HasConstraintName("FK__Word__AddByUser__3C69FB99");
 
                 entity.HasMany(d => d.Antonyms)
                     .WithMany(p => p.Words)
                     .UsingEntity<Dictionary<string, object>>(
                         "AntonymsWord",
-                        l => l.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5535A963"),
-                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__5441852A"),
+                        l => l.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5441852A"),
+                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__534D60F1"),
                         j =>
                         {
-                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FF9C93C30");
+                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4F7C05A836");
 
                             j.ToTable("Antonyms_Word");
 
@@ -140,11 +141,11 @@ namespace DictionaryClient.Models
                     .WithMany(p => p.WordsNavigation)
                     .UsingEntity<Dictionary<string, object>>(
                         "SynonymsWord",
-                        l => l.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5165187F"),
-                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__5070F446"),
+                        l => l.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5070F446"),
+                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__4F7CD00D"),
                         j =>
                         {
-                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB815160F49B227");
+                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB815164CD48EA0");
 
                             j.ToTable("Synonyms_Word");
 
@@ -155,11 +156,11 @@ namespace DictionaryClient.Models
                     .WithMany(p => p.Words)
                     .UsingEntity<Dictionary<string, object>>(
                         "Favourite",
-                        l => l.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__UserI__4CA06362"),
-                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__WordI__4D94879B"),
+                        l => l.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__UserI__4BAC3F29"),
+                        r => r.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Favourite__WordI__4CA06362"),
                         j =>
                         {
-                            j.HasKey("WordId", "UserId").HasName("PK__Favourit__FD587CA2B8B8D1EC");
+                            j.HasKey("WordId", "UserId").HasName("PK__Favourit__FD587CA29495DE5B");
 
                             j.ToTable("Favourite");
                         });
@@ -168,11 +169,11 @@ namespace DictionaryClient.Models
                     .WithMany(p => p.Antonyms)
                     .UsingEntity<Dictionary<string, object>>(
                         "AntonymsWord",
-                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__5441852A"),
-                        r => r.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5535A963"),
+                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___WordI__534D60F1"),
+                        r => r.HasOne<Word>().WithMany().HasForeignKey("AntonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Antonyms___Anton__5441852A"),
                         j =>
                         {
-                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4FF9C93C30");
+                            j.HasKey("WordId", "AntonymsId").HasName("PK__Antonyms__81C56F4F7C05A836");
 
                             j.ToTable("Antonyms_Word");
 
@@ -183,11 +184,11 @@ namespace DictionaryClient.Models
                     .WithMany(p => p.Synonyms)
                     .UsingEntity<Dictionary<string, object>>(
                         "SynonymsWord",
-                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__5070F446"),
-                        r => r.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5165187F"),
+                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___WordI__4F7CD00D"),
+                        r => r.HasOne<Word>().WithMany().HasForeignKey("SynonymsId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Synonyms___Synon__5070F446"),
                         j =>
                         {
-                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB815160F49B227");
+                            j.HasKey("WordId", "SynonymsId").HasName("PK__Synonyms__CFB815164CD48EA0");
 
                             j.ToTable("Synonyms_Word");
 
@@ -201,23 +202,23 @@ namespace DictionaryClient.Models
 
                 entity.HasIndex(e => e.DefinitionId, "IDX_Word_Definition");
 
-                entity.HasIndex(e => e.DefinitionId, "UQ__Word_Def__9D6655158EAA7E49")
+                entity.HasIndex(e => e.DefinitionId, "UQ__Word_Def__9D665515447D5C3C")
                     .IsUnique();
 
                 entity.HasOne(d => d.Definition)
                     .WithOne(p => p.WordDefinition)
                     .HasForeignKey<WordDefinition>(d => d.DefinitionId)
-                    .HasConstraintName("FK__Word_Defi__Defin__49C3F6B7");
+                    .HasConstraintName("FK__Word_Defi__Defin__48CFD27E");
 
                 entity.HasOne(d => d.Type)
                     .WithMany(p => p.WordDefinitions)
                     .HasForeignKey(d => d.TypeId)
-                    .HasConstraintName("FK__Word_Defi__TypeI__48CFD27E");
+                    .HasConstraintName("FK__Word_Defi__TypeI__47DBAE45");
 
                 entity.HasOne(d => d.Word)
                     .WithMany(p => p.WordDefinitions)
                     .HasForeignKey(d => d.WordId)
-                    .HasConstraintName("FK__Word_Defi__WordI__47DBAE45");
+                    .HasConstraintName("FK__Word_Defi__WordI__46E78A0C");
             });
 
             modelBuilder.Entity<WordSet>(entity =>
@@ -227,17 +228,17 @@ namespace DictionaryClient.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.WordSets)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__WordSet__UserId__5812160E");
+                    .HasConstraintName("FK__WordSet__UserId__571DF1D5");
 
                 entity.HasMany(d => d.Words)
                     .WithMany(p => p.WordSets)
                     .UsingEntity<Dictionary<string, object>>(
                         "WordSetItem",
-                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__WordSetIt__WordI__5BE2A6F2"),
-                        r => r.HasOne<WordSet>().WithMany().HasForeignKey("WordSetId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__WordSetIt__WordS__5AEE82B9"),
+                        l => l.HasOne<Word>().WithMany().HasForeignKey("WordId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__WordSetIt__WordI__5AEE82B9"),
+                        r => r.HasOne<WordSet>().WithMany().HasForeignKey("WordSetId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__WordSetIt__WordS__59FA5E80"),
                         j =>
                         {
-                            j.HasKey("WordSetId", "WordId").HasName("PK__WordSetI__73C3AB4209A92B47");
+                            j.HasKey("WordSetId", "WordId").HasName("PK__WordSetI__73C3AB42EBAD5FC4");
 
                             j.ToTable("WordSetItem");
                         });

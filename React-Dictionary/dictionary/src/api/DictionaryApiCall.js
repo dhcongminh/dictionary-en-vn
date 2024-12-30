@@ -13,9 +13,9 @@ DataContainer.getGrossaryByEnglishWord = async (text) => {
     console.log(err);
   }
 }
-DataContainer.lookup = async (text) => {
+DataContainer.lookup = async (text, username) => {
   try {
-    const res = await axios.get(BaseAddress + "/word/en-vi/" + text);
+    const res = await axios.get(BaseAddress + "/word/en-vi/" + text + "?username=" + username);
     return res.data;
   } catch (err) {
     console.log(err);
@@ -31,8 +31,8 @@ DataContainer.getGrossaryByWordId = async (wid) => {
 }
 DataContainer.getAllWord = async () => {
   try {
-    const res = axios.get(BaseAddress + "/word");
-    return res;
+    const res = await axios.get(BaseAddress + "/word");
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -44,7 +44,7 @@ DataContainer.changeUserPassword = async (username, newPassword) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.post(BaseAddress + `/Auth/password-change?username=${username}&newPassword=${newPassword}`, null, config);
+    const res = await axios.post(BaseAddress + `/Auth/password-change?username=${username}&newPassword=${newPassword}`, null, config);
     return res;
   } catch (error) {
     console.log(error);
@@ -136,8 +136,8 @@ DataContainer.getGrossariesByUserAdded = async (uid) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.get(BaseAddress + "/word/u/" + uid, config);
-    return res;
+    const res = await axios.get(BaseAddress + "/word/u/" + uid, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -149,8 +149,8 @@ DataContainer.AddWord = async (word) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.post(BaseAddress + "/word", word, config);
-    return res;
+    const res = await axios.post(BaseAddress + "/word", word, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -163,8 +163,8 @@ DataContainer.UpdateWord = async (wid, word) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.put(BaseAddress + "/word/" + wid, word, config);
-    return res;
+    const res = await axios.put(BaseAddress + "/word/" + wid, word, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -177,8 +177,8 @@ DataContainer.DeleteWord = async (wid) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.delete(BaseAddress + "/word/" + wid, config);
-    return res;
+    const res = await axios.delete(BaseAddress + "/word/" + wid, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -190,8 +190,8 @@ DataContainer.RestoreWord = async (wid) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN").trim()}`,
       }
     }
-    const res = axios.put(BaseAddress + "/word/restore/" + wid, {}, config);
-    return res;
+    const res = await axios.put(BaseAddress + "/word/restore/" + wid, {}, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -203,8 +203,8 @@ DataContainer.RequestAddWord = async (data) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.post(BaseAddress + "/word/request-add-word", data, config);
-    return res;
+    const res = await axios.post(BaseAddress + "/word/request-add-word", data, config);
+    return res.data;
   } catch (err) {
     console.log(err);
   }
@@ -216,7 +216,7 @@ DataContainer.RequestEditWord = async (wid, data) => {
         "Authorization": `${localStorage.getItem("AUTH__TOKEN")}`,
       }
     }
-    const res = axios.put(BaseAddress + "/word/request-update-added-word/" + wid, data, config);
+    const res = await axios.put(BaseAddress + "/word/request-update-added-word/" + wid, data, config);
     return res;
   } catch (err) {
     console.log(err);
@@ -235,7 +235,7 @@ DataContainer.Login = async (data) => {
 DataContainer.Register = async (data) => {
   try {
     const res = await axios.post(BaseAddress + "/auth/register", data);
-    return res;
+    return res.data;
   } catch (err) {
     console.log(err);
   }

@@ -50,9 +50,9 @@ namespace DictionaryAPI.Controllers {
         }
 
         [HttpGet("en-vi/{search}")]
-        public IActionResult LookUp(string search) {
+        public IActionResult LookUp(string search, string username) {
 
-            dynamic? dto = _service.LookUp(search);
+            dynamic? dto = _service.LookUp(search, username);
             if (dto == null)
                 return NoContent();
             return Ok(new {
@@ -85,6 +85,7 @@ namespace DictionaryAPI.Controllers {
         [HttpPost]
         public IActionResult Add([FromBody] WordInputDTO dto) {
             if (ModelState.IsValid) {
+                dto.LastTimeUpdate = DateTime.Now.ToString();
                 return Ok(_service.Insert(dto));
             }
             return BadRequest(_configuration["Messages:Errors:INVALID_INPUT_FORMAT"]);

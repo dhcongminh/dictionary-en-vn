@@ -31,12 +31,13 @@ namespace DictionaryAPI.Controllers {
             if (ModelState.IsValid) {
                 AuthResultDTO result = _service.Register(userRegisting.Email, userRegisting.Username, userRegisting.Password);
 
-
-                var confirmationLink = Url.Action("ConfirmEmail", "Auth",
+                if (result.User != null) {
+                    var confirmationLink = Url.Action("ConfirmEmail", "Auth",
                                     new { userId = result.User.Id },
                                     protocol: HttpContext.Request.Scheme);
-                await SendActivationEmail(userRegisting.Email, confirmationLink);
-                return Ok(confirmationLink);
+                    await SendActivationEmail(userRegisting.Email, confirmationLink);
+                }
+                return Ok(result);
             } else {
                 return BadRequest();
             }

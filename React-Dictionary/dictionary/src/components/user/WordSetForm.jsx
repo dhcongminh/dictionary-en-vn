@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
 import DataContainer from "../../api/DictionaryApiCall";
+import Authentication from "../../others/Authentication";
 
 const WordSetForm = ({
   setCollectionName,
   collectionName,
   setWordsInCollection,
   wordsInCollection,
+  setIsLoading
 }) => {
   const [wordList, setWordList] = useState([]);
 
   useEffect(() => {
-    DataContainer.getAllWord().then((res) => {
-      setWordList(res.data);
+    setIsLoading(true);
+    DataContainer.getAllWord().then((data) => {
+      setWordList(data.filter(x => x.userAdded.username === Authentication.username()));
+      setIsLoading(false);
     });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

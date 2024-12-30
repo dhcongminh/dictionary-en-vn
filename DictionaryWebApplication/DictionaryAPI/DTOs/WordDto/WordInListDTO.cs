@@ -7,6 +7,7 @@ namespace DictionaryAPI.DTOs.WordDto {
         public string? ShortDefinition { get; set; }
         public string? Phonetic { get; set; }
         public string? Status { get; set; }
+        public string? LastTimeUpdate {  get; set; }
         public User UserAdded { get; set; }
         public WordInListDTO() { }
     }

@@ -50,19 +50,46 @@ namespace DictionaryAPI.Repositories.Implementation {
                 .FirstOrDefault(x => x.Id == id);
         }
 
-        public Word? GetWordByWordText(string word_text) {
-            return _context.Words
+        public Word? GetWordByWordText(string word_text, string username) {
+            // Base query with common includes
+            var query = _context.Words
                 .Include(x => x.Users)
                 .Include(x => x.WordDefinitions)
                     .ThenInclude(d => d.Type)
-                    .ThenInclude(d => d.WordDefinitions)
+                .Include(x => x.WordDefinitions)
                     .ThenInclude(d => d.Definition)
                     .ThenInclude(d => d.Examples)
                 .Include(x => x.Antonyms)
                 .Include(x => x.Synonyms)
                 .Include(x => x.AddByUserNavigation)
-                .FirstOrDefault(x => x.WordText == word_text);
+                .Where(x => x.WordText == word_text);
+
+            // Apply filter for username if provided
+            if (!string.IsNullOrEmpty(username)) {
+                query = query.Where(x => x.AddByUserNavigation.Username == username);
+            }
+
+            // Execute the query and retrieve the word
+            var word = query.FirstOrDefault();
+
+            // If not found and username is provided, fallback to finding the word regardless of username
+            if (word == null && !string.IsNullOrEmpty(username)) {
+                word = _context.Words
+                    .Include(x => x.Users)
+                    .Include(x => x.WordDefinitions)
+                        .ThenInclude(d => d.Type)
+                    .Include(x => x.WordDefinitions)
+                        .ThenInclude(d => d.Definition)
+                        .ThenInclude(d => d.Examples)
+                    .Include(x => x.Antonyms)
+                    .Include(x => x.Synonyms)
+                    .Include(x => x.AddByUserNavigation)
+                    .FirstOrDefault(x => x.WordText == word_text);
+            }
+
+            return word;
         }
+
 
         public Example? GetWordExampleByText(string text) {
             return _context.Examples.FirstOrDefault(x => x.Detail == text);

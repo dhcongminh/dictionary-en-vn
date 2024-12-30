@@ -8,7 +8,7 @@ namespace DictionaryAPI.Services {
         public Word DtoToWord(WordInListDTO dto);
         public Word DtoToWord(WordInputDTO dto);
         public WordInDetailDTO? WordToDetailDto(Word? word);
-        public dynamic? WordToLookupDto(Word? word);
+        public dynamic? WordToLookupDto(Word? word, string username);
         public WordInListDTO WordToListDto(Word word);
         public WordInputDTO WordToInputDto(Word word);
 

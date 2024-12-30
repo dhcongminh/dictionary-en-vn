@@ -105,31 +105,7 @@ function App() {
         />
       </Routes>
       <Box sx={{ overflowX: "hidden" }}>
-        <Box
-          onClick={() => setIsChatBoxClose(!isChatBoxClose)}
-          sx={{
-            position: "absolute",
-            width: 55,
-            height: 55,
-            bgcolor: "lightblue",
-            right: 50,
-            bottom: 100,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            boxShadow: "10px 10px 10px grey",
-            transition: ".2s ease-in-out",
-            zIndex: 1,
-            ":hover": {
-              width: 60,
-              height: 60,
-              borderRadius: 2,
-              cursor: "pointer",
-            },
-          }}
-        >
-          <FeedbackIcon sx={{ color: "#fff" }} />
-        </Box>
+        
         <Box
           className={ isChatBoxClose ? "boxchat" : "boxchat show"}
           sx={{

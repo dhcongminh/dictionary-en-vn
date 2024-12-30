@@ -22,6 +22,7 @@ namespace DictionaryClient.Models
         public string? Phonetic { get; set; }
         public int? AddByUser { get; set; }
         public string? Status { get; set; }
+        public string? LastTimeUpdate { get; set; }
 
         public virtual User? AddByUserNavigation { get; set; }
         public virtual ICollection<WordDefinition> WordDefinitions { get; set; }

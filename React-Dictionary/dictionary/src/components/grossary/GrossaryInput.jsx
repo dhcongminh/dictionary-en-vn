@@ -10,6 +10,7 @@ import React, { useEffect, useState } from "react";
 import DataContainer from "../../api/DictionaryApiCall";
 import GrossaryDetail from "./GrossaryDetail";
 import { toast } from "react-toastify";
+import Authentication from "../../others/Authentication";
 
 const GrossaryInput = ({ setIsLoading }) => {
   const [grossaryText, setGrossaryText] = useState("");
@@ -41,12 +42,12 @@ const GrossaryInput = ({ setIsLoading }) => {
   function fetchWordDefinition() {
     if (grossaryText) {
       setIsLoading(true);
-      DataContainer.lookup(grossaryText)
+      DataContainer.lookup(grossaryText, Authentication.username())
         .then((data) => {
           if (data === undefined) {
             toast.error("Lỗi mạng!");
             setGrossaryData(null);
-          } else if (data === "" || data.status !== "active") {
+          } else if (data === "" ||  (data.status !== "active" && data.userAdded.username !== Authentication.username())) {
             toast.error("Không tìm thấy từ trong hệ thống!");
             setGrossaryData(null);
           } else {

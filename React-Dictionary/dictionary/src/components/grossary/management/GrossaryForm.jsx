@@ -29,8 +29,8 @@ const GrossaryForm = ({
     grossaryDetail
       ? grossaryDetail.status
       : Authentication.isAdmin()
-        ? ""
-        : "pending"
+      ? ""
+      : "pending"
   );
   const [duplicated, setDuplicated] = useState([]);
 
@@ -58,6 +58,7 @@ const GrossaryForm = ({
         ],
         antonyms: [],
         synonyms: [],
+        lastTimeUpdate: new Date().toLocaleString()
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,6 +89,7 @@ const GrossaryForm = ({
     word.shortDefinition = shortDefinition;
     word.phonetic = phonetic;
     word.status = status;
+    word.lastTimeUpdate = new Date().toLocaleString();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordText, shortDefinition, phonetic, status]);
 
@@ -112,14 +114,16 @@ const GrossaryForm = ({
       return;
     }
     if (Authentication.isAdmin()) {
+      word.lastTimeUpdate = new Date().toLocaleString();
+      console.log(word)
       if (action === "Thêm") {
         DataContainer.AddWord(word)
-          .then((res) => {
-            if (res.data === "word exist") {
+          .then((data) => {
+            if (data === "word exist") {
               Swal.fire({
                 icon: "error",
                 title: "Lỗi xung đột",
-                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa.",
               });
             } else {
               toast.success("Thêm từ thành công.");
@@ -137,12 +141,12 @@ const GrossaryForm = ({
           });
       } else if (action === "Chỉnh sửa") {
         DataContainer.UpdateWord(word.id, word)
-          .then((res) => {
-            if (res.data === "word exist") {
+          .then((data) => {
+            if (data === "word exist") {
               Swal.fire({
                 icon: "error",
                 title: "Lỗi xung đột",
-                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+                html: "Từ bạn đang thêm đã có trong hệ thống\n Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa.",
               });
             } else {
               toast.success("Chỉnh sửa từ thành công.");
@@ -162,12 +166,12 @@ const GrossaryForm = ({
     } else {
       if (action === "Thêm") {
         DataContainer.RequestAddWord(word)
-          .then((res) => {
-            if (res.data === "word exist") {
+          .then((data) => {
+            if (data === "word exist") {
               Swal.fire({
                 icon: "error",
                 title: "Lỗi xung đột",
-                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa.",
               });
             } else {
               Swal.fire({
@@ -190,12 +194,12 @@ const GrossaryForm = ({
           });
       } else if (action === "Chỉnh sửa") {
         DataContainer.RequestEditWord(word.id, word)
-          .then((res) => {
-            if (res.data === "word exist") {
+          .then((data) => {
+            if (data === "word exist") {
               Swal.fire({
                 icon: "error",
                 title: "Lỗi xung đột",
-                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa (Nếu có).",
+                html: "Từ bạn đang thêm đã có trong hệ thống </br> Tìm kiếm trong Danh sách từ của bạn để chỉnh sửa.",
               });
             } else {
               Swal.fire({
@@ -322,9 +326,16 @@ const GrossaryForm = ({
   function FetchAllActiveAndPendingOfUserWord() {
     return new Promise((resolve, reject) => {
       DataContainer.getAllWord()
-        .then((res) => {
-          var allActiveWords = res.data.filter((w) => w.status === "active");
-          var wordsAddByMember = res.data.filter(
+        .then((data) => {
+          var allWordsOfLoginedUser = data.filter(
+            (w) => w.userAdded.username === Authentication.username()
+          );
+          var allActiveWords = data.filter(
+            (w) =>
+              w.status === "active" &&
+              allWordsOfLoginedUser.map((x) => x.wordText).includes(w.wordtext)
+          );
+          var wordsAddByMember = data.filter(
             (w) => w.userAdded.username === Authentication.username()
           );
           var finalDatas = [
@@ -452,9 +463,7 @@ const GrossaryForm = ({
                       className="form-control"
                       id="phoneticWord"
                       value={phonetic}
-                      onChange={(event) =>
-                        setPhonetic(event.target.value)
-                      }
+                      onChange={(event) => setPhonetic(event.target.value)}
                     />
                     <span className="form-message text-danger"></span>
                   </div>

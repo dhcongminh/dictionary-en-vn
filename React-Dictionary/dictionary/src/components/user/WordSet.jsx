@@ -162,6 +162,7 @@ const WordSet = ({ setIsLoading }) => {
               setCollectionName={setCollectionName}
               setWordsInCollection={setWordsInCollection}
               wordsInCollection={wordsInCollection}
+              setIsLoading={setIsLoading}
             />
           </div>
           <Button variant="contained" type="submit">

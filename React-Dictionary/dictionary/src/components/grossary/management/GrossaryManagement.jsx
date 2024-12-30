@@ -53,8 +53,8 @@ const GrossaryManagement = ({ setIsLoading }) => {
       window.location.reload();
     }
     DataContainer.getGrossariesByUserAdded(Authentication.userId())
-      .then((res) => {
-        setDatas([...res.data]);
+      .then((data) => {
+        setDatas([...data]);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -74,9 +74,9 @@ const GrossaryManagement = ({ setIsLoading }) => {
         window.location.reload();
       }
       DataContainer.getGrossariesByUserAdded(Authentication.userId())
-        .then((res) => {
+        .then((data) => {
           setDatas(
-            res.data.filter(
+            data.filter(
               (data) =>
                 data.status.toLowerCase().startsWith(status.toLowerCase()) &&
                 data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
@@ -120,10 +120,10 @@ const GrossaryManagement = ({ setIsLoading }) => {
     }
     if (orderBy && orderBy.length > 0) {
       DataContainer.getGrossariesByUserAdded(Authentication.userId())
-        .then((res) => {
+        .then((data) => {
           if (order === "giảm dần") {
             setDatas(
-              res.data
+              data
                 .filter(
                   (data) =>
                     data.status
@@ -149,7 +149,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
             );
           } else {
             setDatas(
-              res.data
+              data
                 .filter(
                   (data) =>
                     data.status
@@ -182,9 +182,9 @@ const GrossaryManagement = ({ setIsLoading }) => {
         });
     } else {
       DataContainer.getGrossariesByUserAdded(Authentication.userId())
-        .then((res) => {
+        .then((data) => {
           setDatas(
-            res.data.filter(
+            data.filter(
               (data) =>
                 data.status.toLowerCase().startsWith(status.toLowerCase()) &&
                 data.wordText.toLowerCase().startsWith(word.toLowerCase()) &&
@@ -265,7 +265,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Box sx={{ mt: 1 }}>
               <FormControlLabel
-                sx={{ borderRight: 1, pr: 1 }}
+                sx={{ borderRight: 1, pr: 1, display: "none" }}
                 control={
                   <Checkbox
                     onChange={(event) => handleChange(event)}
@@ -294,7 +294,7 @@ const GrossaryManagement = ({ setIsLoading }) => {
                 }
                 label="Trạng thái"
               />
-              <Button onClick={handleOrder}>Sắp xếp {order}</Button>
+              {/* <Button onClick={handleOrder}>Sắp xếp {order}</Button> */}
             </Box>
             <Button onClick={handleAddWord} variant="contained">
               Thêm từ mới

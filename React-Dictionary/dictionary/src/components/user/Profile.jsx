@@ -44,8 +44,8 @@ const Profile = ({ user, setIsLoading }) => {
       return;
     }
     setIsLoading(true);
-    DataContainer.changeUserPassword(Authentication.username(), newPassword).then(res => {
-      if (res.data !== null) {
+    DataContainer.changeUserPassword(Authentication.username(), newPassword).then(data => {
+      if (data) {
         Swal.fire({
           icon: "success",
           title: "Thành công",
