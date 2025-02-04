@@ -3,7 +3,7 @@ import Authentication from "../others/Authentication";
 
 const DataContainer = {};
 
-const BaseAddress = "https://localhost:7268/api/v1";
+const BaseAddress = "https://dictionaryapi.fly.dev/api/v1";
 
 DataContainer.getGrossaryByEnglishWord = async (text) => {
   try {
