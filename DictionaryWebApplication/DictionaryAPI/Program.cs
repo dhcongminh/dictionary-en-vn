@@ -31,7 +31,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Dictionary_en_vnContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DB"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DBOnline"));
 });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => {
