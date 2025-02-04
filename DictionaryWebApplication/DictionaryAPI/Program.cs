@@ -21,7 +21,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost3000", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.WithOrigins("https://dictionary-en-r102iujin-do-hoang-cong-minhs-projects.vercel.app")
                .AllowCredentials()     // Access-Control-Allow-Credentials: true
                .AllowAnyHeader()
                .AllowAnyMethod()
